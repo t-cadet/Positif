@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
     <head>
         <title>Inscription</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script
+          src="https://code.jquery.com/jquery-3.3.1.min.js"
+          integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+          crossorigin="anonymous">
+        </script>
     </head>
     <body>
-        <form action="index.html">
+        <form method="POST">
             <div>
                 <h2>Identité</h2>
                 <label for="firstName">Prénom:</label>
@@ -32,8 +32,36 @@ and open the template in the editor.
                 <label for="email">Email:</label>
                 <input type="text" id="email" name="email">
             </div>
+            <input id="submit" type="submit" name="submit" value="Confirmer !">
         </form>
         <p>Lorsque vous aurez confirmé votre inscription, nous vous enverrons un mail contenant votre code client. Gardez-le précieusement !</p>
-        <button onClick="">Confirmer !</button>
+        
+        <script type="application/javascript">
+            $('document').ready(() => {
+
+                console.log('document is ready');
+                $('form').on('submit', function(event) {
+                    event.preventDefault();
+                    console.log('form submitted');   
+                    console.log($(this).serialize());                
+                    $.ajax({
+                        url: './ActionServlet',//$(this).attr('action'),
+                        type: $(this).attr('method'),
+                        dataType: 'json',
+                        data: 'todo=register&'+$(this).serialize(),
+                        success: (resp) => {
+                            console.log('request success');
+                            console.log(resp);
+                        },
+                        error: function(xhr, resp, text) {
+                            console.log('request failure');
+                            console.log(xhr, resp, text);
+                        },
+                    });
+                    return false;
+                });
+            });
+        </script>  
+
     </body>
 </html>

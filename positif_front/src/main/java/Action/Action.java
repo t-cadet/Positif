@@ -1,7 +1,6 @@
-package Controller;
+package Action;
 
 
-import fr.insalyon.dasi.positif.service.Services;
 import javax.servlet.http.HttpServletRequest;
 
 /*

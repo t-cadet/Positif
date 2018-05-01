@@ -18,25 +18,32 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author tcadet
  */
-public class Serialization {
-    private static void printResponse(HttpServletResponse response, JsonObject... json) {
+public class Serialization {   
+    /*
+    Renvoie la réponse au format suivant pour chaque action : 
+    "success": (boolean) -- Requis
+    "data": (Object) -- Optionel
+    "forward": (String) -- Optionel
+    */
+    public static void outputResponse(HttpServletRequest request, HttpServletResponse response) {
+        JsonObject resp = new JsonObject();
+        resp.add("success", gson.toJsonTree(request.getAttribute("success")));
+        if(request.getAttribute("data")!=null) {
+            resp.add("data", gson.toJsonTree(request.getAttribute("data")));
+        }
+        if(request.getParameter("forward")!=null) {
+            resp.addProperty("forward", request.getParameter("forward"));
+        }
+
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        
         PrintWriter out = null;
         try {
             out = response.getWriter();
         } catch (IOException ex) {
             Logger.getLogger(Serialization.class.getName()).log(Level.SEVERE, null, ex);
         }
-        for(int i = 0; i<json.length; i++) {
-            out.println(gson.toJson(json[i]));
-        }
+        out.println(resp.toString());
         out.close();
-    }
-    public static void outputRegisterClient(HttpServletRequest request, HttpServletResponse response) {
-        JsonObject success = new JsonObject();
-        success.addProperty("success", request.getParameter("success"));     
-        printResponse(response, success);
     }
 }

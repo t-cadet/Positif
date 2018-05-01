@@ -50,7 +50,7 @@ public class ActionServlet extends HttpServlet {
             case "registerClient" : {
                 Action action = new RegisterClientAction();
                 action.execute(request);
-                Serialization.outputRegisterClient(request, response);                
+                Serialization.outputResponse(request, response);                
             }
             default: {
                 System.err.println("La requête " + request.toString() + " n'est pas une requête valide.");

@@ -14,58 +14,56 @@
     </head>
     <body>
         <div class="ui padded centered grid">
-            <div class="nine wide column">
-                <div class="ui raised segment">
-                    <form method="POST" class="ui form">
-                        <h4 class="ui dividing header" style="text-align: center">Identité</h4>
-                        <div class="two fields">
-                            <div class="field">
-                                <label for="firstName">Prénom</label>
-                                <input type="text" id="firstName" name="firstName">
-                            </div>
-                            <div class="field">
-                                <label for="lastName">Nom</label>
-                                <input type="text" id="lastName" name="lastName">
-                            </div>
-                        </div>
-                        <div class="two fields">
-                            <div class="field">
-                                <label for="birthdate">Date de naissance</label>
-                                <div class="ui icon input">
-                                    <input type="date" id="birthdate" name="birthdate">
-                                    <i class="calendar icon"></i>
-                                </div>    
-                            </div>
-                            <div class="field">
-                                <label for="honorific">Civilité</label>
-                                <input type="text" id="honorific" name="honorific">
-                            </div>
-                        </div>   
-                        <h4 class="ui dividing header" style="text-align: center">Coordonnées</h4>
+            <div class="nine wide computer twelve wide tablet column">
+                <form method="POST" class="ui form">
+                    <h4 class="ui dividing header" style="text-align: center">Identité</h4>
+                    <div class="two fields">
                         <div class="field">
-                            <label for="address">Adresse postale</label>
-                            <input type="text" id="address" name="address">
+                            <label for="firstName">Prénom</label>
+                            <input type="text" id="firstName" name="firstName">
                         </div>
                         <div class="field">
-                            <label for="tel">Téléphone</label>
+                            <label for="lastName">Nom</label>
+                            <input type="text" id="lastName" name="lastName">
+                        </div>
+                    </div>
+                    <div class="two fields">
+                        <div class="field">
+                            <label for="birthdate">Date de naissance</label>
                             <div class="ui icon input">
-                                <input type="text" id="tel" name="tel">
-                                <i class="phone icon"></i>
-                            </div>
+                                <input type="date" id="birthdate" name="birthdate">
+                                <i class="calendar icon"></i>
+                            </div>    
                         </div>
                         <div class="field">
-                            <label for="email">Email</label>
-                            <div class="ui icon input">
-                                <input type="text" id="email" name="email">
-                                <i class="mail icon"></i>
-                            </div>
-                        </div>   
-                        <input type="hidden" name="todo" value="register" />
-                        <div style="display: flex; justify-content: flex-end">
-                            <input class="ui green button" id="submit" type="submit" name="submit" value="Confirmer !">
+                            <label for="honorific">Civilité</label>
+                            <input type="text" id="honorific" name="honorific">
                         </div>
-                    </form>    
-                </div>
+                    </div>   
+                    <h4 class="ui dividing header" style="text-align: center">Coordonnées</h4>
+                    <div class="field">
+                        <label for="address">Adresse postale</label>
+                        <input type="text" id="address" name="address">
+                    </div>
+                    <div class="field">
+                        <label for="tel">Téléphone</label>
+                        <div class="ui icon input">
+                            <input type="text" id="tel" name="tel">
+                            <i class="phone icon"></i>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="email">Email</label>
+                        <div class="ui icon input">
+                            <input type="text" id="email" name="email">
+                            <i class="mail icon"></i>
+                        </div>
+                    </div>   
+                    <input type="hidden" name="todo" value="register" />
+                    <div style="display: flex; justify-content: flex-end">
+                        <input class="ui green button" id="submit" type="submit" name="submit" value="Confirmer !">
+                    </div>
+                </form>    
                 <div class="ui info message" style="text-align: center">Lorsque vous aurez confirmé votre inscription, nous vous enverrons un mail contenant votre code client. Gardez-le précieusement !</div>        
             </div>   
         </div>

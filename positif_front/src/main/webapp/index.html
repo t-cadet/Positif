@@ -31,8 +31,9 @@
                     },
                     dataType: 'json',
                     error: function(xhr, resp, text) {
-                            console.log('request failure');
-                            console.log(xhr, resp, text);
+                            document.open();
+                            document.write(xhr.responseText);
+                            document.close();
                         },
                 }).done(function (data) {
                     // ici votre code...

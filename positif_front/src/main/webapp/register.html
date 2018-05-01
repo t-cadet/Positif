@@ -12,7 +12,7 @@
         </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.js"></script>
     </head>
-    <body>
+    <body style="background: silver">
         <div class="ui padded centered grid">
             <div class="nine wide computer twelve wide tablet column">
                 <form method="POST" class="ui form">
@@ -85,14 +85,14 @@
                             console.log(resp);
                         },
                         error: function(xhr, resp, text) {
-                            console.log('request failure');
-                            console.log(xhr, resp, text);
+                            document.open();
+                            document.write(xhr.responseText);
+                            document.close();
                         },
                     });
                     return false;
                 });
             });
         </script>  
-
     </body>
 </html>

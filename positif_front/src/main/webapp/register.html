@@ -15,7 +15,8 @@
     <body style="background: linear-gradient(to right, #fafafa, #fefefe)">
         <div class="ui padded centered grid">
             <div class="nine wide computer twelve wide tablet column">
-                <form method="POST" class="ui form">
+                <div class="ui horizontal divider">S'inscrire</div>
+                <form method="POST" action="./ActionServlet" class="ui form">
                     <h4 class="ui dividing header" style="text-align: center">Identité</h4>
                     <div class="two fields">
                         <div class="field">
@@ -59,7 +60,7 @@
                             <i class="mail icon"></i>
                         </div>
                     </div>   
-                    <input type="hidden" name="todo" value="register" />
+                    <input type="hidden" name="todo" value="registerClient" />
                     <div style="display: flex; justify-content: flex-end">
                         <input class="ui green button" id="submit" type="submit" name="submit" value="Confirmer !">
                     </div>
@@ -76,7 +77,7 @@
                     console.log('form submitted');   
                     console.log($(this).serialize());                
                     $.ajax({
-                        url: './ActionServlet',//$(this).attr('action'),
+                        url: $(this).attr('action'),
                         type: $(this).attr('method'),
                         dataType: 'json',
                         data: $(this).serialize(),
@@ -85,6 +86,8 @@
                             console.log(resp);
                         },
                         error: function(xhr, resp, text) {
+                            console.log('error');
+                            console.log(xhr, resp, text);
                             document.open();
                             document.write(xhr.responseText);
                             document.close();

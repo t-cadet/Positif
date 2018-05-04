@@ -26,12 +26,15 @@ public class RegisterClientAction extends Action {
         
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
+        String strDate = request.getParameter("birthDate");
         Date birthDate = null;
-        try {
-            birthDate = ActionServlet.DATE.parse(request.getParameter("birthDate"));
-        } catch (ParseException ex) {
-            Logger.getLogger(RegisterClientAction.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        if(strDate!=null) {
+            try {
+                birthDate = ActionServlet.DATE.parse(request.getParameter("birthDate"));
+            } catch (ParseException ex) {
+                Logger.getLogger(RegisterClientAction.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }    
         String honorific = request.getParameter("honorific");
         String address = request.getParameter("address");
         String tel = request.getParameter("tel");
@@ -40,6 +43,7 @@ public class RegisterClientAction extends Action {
         if(Services.verifierInformationsInscriptionClient(firstName, lastName, birthDate, honorific, address, tel, email)) {
             Services.inscrireClient(firstName, lastName, birthDate, honorific, address, tel, email);
             request.setAttribute("success", true);
+            request.setAttribute("forward", "");
         }
         else {
             request.setAttribute("success", false);

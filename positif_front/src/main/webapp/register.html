@@ -30,9 +30,9 @@
                     </div>
                     <div class="two fields">
                         <div class="field">
-                            <label for="birthdate">Date de naissance</label>
+                            <label for="birthDate">Date de naissance</label>
                             <div class="ui icon input">
-                                <input type="date" id="birthdate" name="birthdate">
+                                <input type="date" id="birthDate" name="birthDate">
                                 <i class="calendar icon"></i>
                             </div>    
                         </div>
@@ -65,6 +65,7 @@
                         <input class="ui green button" id="submit" type="submit" name="submit" value="Confirmer !">
                     </div>
                 </form>    
+                <div id="failure" class="ui error message" style="text-align: center; visibility: hidden;">Échec de l'inscription, vérifiez que vous avez rempli tous les champs avec des données valides.</div>
                 <div class="ui info message" style="text-align: center">Lorsque vous aurez confirmé votre inscription, nous vous enverrons un mail contenant votre code client. Gardez-le précieusement !</div>        
             </div>   
         </div>
@@ -84,13 +85,20 @@
                         success: (resp) => {
                             console.log('request success');
                             console.log(resp);
+                            if(resp.success) {
+                                if(resp.forward)
+                                window.location = resp.forward;
+                            }
+                            else {
+                                $('#failure').show();
+                            }
                         },
                         error: function(xhr, resp, text) {
                             console.log('error');
                             console.log(xhr, resp, text);
-                            document.open();
+                            /*document.open();
                             document.write(xhr.responseText);
-                            document.close();
+                            document.close();*/
                         },
                     });
                     return false;

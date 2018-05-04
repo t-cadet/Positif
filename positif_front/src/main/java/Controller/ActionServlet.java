@@ -30,8 +30,8 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "ActionServlet", urlPatterns = {"/ActionServlet"})
 public class ActionServlet extends HttpServlet {
     public static final SimpleDateFormat HOUR = new SimpleDateFormat("HH:mm:ss");
-    public static final SimpleDateFormat DATE = new SimpleDateFormat("yyyy/MM/dd");
-    public static final SimpleDateFormat DATE_HOUR = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+    public static final SimpleDateFormat DATE = new SimpleDateFormat("yyyy-MM-dd");
+    public static final SimpleDateFormat DATE_HOUR = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     public static final Gson gson = new GsonBuilder().create();
     
     @Override

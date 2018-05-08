@@ -2,16 +2,52 @@
 <html>
     <head>
         <title>Exemple de page de login</title>
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css">
         <meta charset="UTF-8">
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     </head>
-    <body>
-        <a href="register.html">Je m'inscris maintenant !</a> 
-        <h1>Formulaire de login</h1>
-        Identifiant : <input type="text" id="champ-login" name="login" placeholder="votre identifiant" /><br>
-        Mot de passe : <input type="password" id="champ-password" name="password" /><br>
-        <button id="bouton-connexion">Se connecter</button>   
-        <div id="message"></div>
+    <body style="background: linear-gradient(to right, #fafafa, #fefefe)">
+        <br/>
+        <div class="ui raised very padded center aligned container segment">
+            <h3 class="ui header">POST'IF, le cabinet de voyance le plus professionnel de tout l'intranet INSA !</h3>
+            <h4>Pas encore inscrit(e) ? Qu'est ce que tu attends ?!</h4>
+            
+            <form action="register.html">
+                 <input class="ui green button" id="submit" type="submit" name="submit" value=">>> Je m'inscris MAINTENANT ! <<<">
+            
+            </form>
+            
+           <p></p>
+            <p></p>
+        </div>
+        
+         <div class="ui raised very padded text container segment">
+            <div class="six wide computer twelve wide tablet column">
+                <div class="ui horizontal divider"><h2>Je me connecte !</h2></div>
+                <form method="POST" action="./ActionServlet" class="ui form">
+                    <div class="field">
+                        <label for="address">Adresse électronique</label>
+                        <div class="ui icon input">
+                            <input type="text" id="champ-login" name="login" placeholder="Votre adresse électronique" />
+                            <i class="envelope icon"></i>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="tel">Numéro client</label>
+                        <div class="ui icon input">
+                            <input type="password" id="champ-password" name="password" placeholder="Votre numéro client" />
+                            <i class="tag icon"></i>
+                        </div>
+                    </div>
+                   
+                    <input type="hidden" name="todo" value="registerClient" />
+                    <div style="display: flex; justify-content: flex-end">
+                        <input class="ui green button" id="submit" type="submit" name="submit" value="Connexion !">
+                    </div>
+                </form>    
+                <div id="failure" class="ui error message" style="text-align: center; visibility: hidden;">Adresse ou numéro client invalide</div>
+            </div>   
+        </div>
         
         <script>
 

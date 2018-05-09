@@ -1,0 +1,13 @@
+.my_alert {
+	position: fixed;
+	right: 1vw;
+	top: 1vw;
+}
+
+.my_alert .message {
+	display: none;
+}
+
+.my_alert .message div, p {
+	text-align: center;
+}

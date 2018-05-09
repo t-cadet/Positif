@@ -47,7 +47,6 @@ public class RegisterClientAction extends Action {
         if(Services.verifierInformationsInscriptionClient(firstName, lastName, birthDate, honorific, address, tel, email)) {
             Services.inscrireClient(firstName, lastName, birthDate, honorific, address, tel, email);
             request.setAttribute("success", true);
-            request.setAttribute("forward", "");
         }
         else {
             request.setAttribute("success", false);

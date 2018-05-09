@@ -5,6 +5,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css">
+        <link rel="stylesheet" type ="text/css" href="my_styles.css" />
         <script
           src="https://code.jquery.com/jquery-3.3.1.min.js"
           integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
@@ -15,7 +16,7 @@
     <body style="background: linear-gradient(to right, #fafafa, #fefefe)">
         <div class="ui padded centered grid">
             <div class="nine wide computer twelve wide tablet column">
-                <div class="ui horizontal divider">S'inscrire</div>
+                <div class="ui horizontal divider">Je m'inscris</div>
                 <form method="POST" action="./ActionServlet" class="ui form">
                     <h4 class="ui dividing header" style="text-align: center">Identité</h4>
                     <div class="two fields">
@@ -65,18 +66,51 @@
                         <input class="ui green button" id="submit" type="submit" name="submit" value="Confirmer !">
                     </div>
                 </form>    
-                <div id="failure" class="ui error message" style="text-align: center; visibility: hidden;">Échec de l'inscription, vérifiez que vous avez rempli tous les champs avec des données valides.</div>
-                <div class="ui info message" style="text-align: center">Lorsque vous aurez confirmé votre inscription, nous vous enverrons un mail contenant votre code client. Gardez-le précieusement !</div>        
-            </div>   
+                
+                <div class="my_alert">
+                    <div id="form_error" class="mini error ui message">
+                        <i class="close icon" onclick=" $(this).closest('.error.message').transition('zoom');"></i>
+                        <div class="header">
+                            Échec de l'inscription
+                        </div>
+                        <ul class="list">
+                            <li>Tous les champs doivent être remplis.</li>
+                            <li>Les données doivent être valides.</li>
+                        </ul>
+                    </div>
+                    <div id="server_error" class="mini error ui message">
+                        <i class="close icon" onclick=" $(this).closest('.message').transition('zoom');"></i>
+                        <div class="header">
+                            Erreur interne du serveur
+                        </div>
+                        <p>Veuillez réessayer ultérieurement.</p>
+                    </div>
+                    <div id="form_success"  class="mini success ui message">
+                        <i class="close icon" onclick=" $(this).closest('.message').transition('zoom');"></i>
+                        <div class="header">
+                            Inscription réussie
+                        </div>
+                        <p><a class="green ui button" href="index.html">Je me connecte !</a></p>
+                    </div>
+                    <div id="connexion_info" class="mini info ui message">
+                        <i class="close icon" onclick=" $(this).closest('.message').transition('zoom');"></i>
+                        <div class="header">
+                            Code client
+                        </div>
+                        <p>Votre code client vous a été envoyé par mail. <br />
+                         Gardez-le précieusement ! </p>     
+                    </div>   
+                </div>  
         </div>
-        <script type="application/javascript">
+        <script>
             $('document').ready(() => {
 
                 console.log('document is ready');
                 $('form').on('submit', function(event) {
                     event.preventDefault();
                     console.log('form submitted');   
-                    console.log($(this).serialize());                
+                    console.log($(this).serialize());  
+                    $('.my_alert').children().hide();              
                     $.ajax({
                         url: $(this).attr('action'),
                         type: $(this).attr('method'),
@@ -86,22 +120,21 @@
                             console.log('request success');
                             console.log(resp);
                             if(resp.success) {
-                                if(resp.forward)
-                                window.location = resp.forward;
+                                $('#connexion_info').transition('jiggle');
+                                $('#form_success').transition('jiggle');   
                             }
                             else {
-                                $('#failure').show();
+                                $('#form_error').transition('jiggle');
                             }
                         },
                         error: function(xhr, resp, text) {
-                            console.log('error');
+                            $('#server_error').transition('jiggle');
                             console.log(xhr, resp, text);
                             /*document.open();
                             document.write(xhr.responseText);
                             document.close();*/
                         },
                     });
-                    return false;
                 });
             });
         </script>  

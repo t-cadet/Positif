@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=utf-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -24,13 +25,13 @@
                   </button>
                 </div>
                 <div class="ui bottom attached active tab segment" data-tab="first">
-                    <!--#include virtual="profile.html" -->
+                    <%@ include file="profile.html" %>
                 </div>
                 <div class="ui bottom attached tab segment" data-tab="second">
-                    <!--#include virtual="consult.html" -->
+                    <%@ include file="consult.html" %>
                 </div>
                 <div class="ui bottom attached tab segment" data-tab="third">
-                    <!--#include virtual="history.html" -->
+                    <%@ include file="history.html" %>
                 </div>
             </div>  
             <script type="text/javascript">

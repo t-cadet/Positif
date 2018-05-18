@@ -69,13 +69,24 @@ public class ActionServlet extends HttpServlet {
                 action.execute(request);
                 Serialization.outputResponse(request, response);
                 Client c = (Client)request.getAttribute("data");
-                
                 session.setAttribute("user", c);
                 
                 break;
             }
             case "deconnexion" : {
                 session.invalidate();
+                break;
+            }
+            case "session" : {
+                request.setAttribute("data", session.getAttribute("user"));
+                Serialization.outputResponse(request, response);
+                
+                break;
+            }
+            case "historiqueClient" : {
+                request.setAttribute("data", session.getAttribute("user"));
+                Serialization.outputResponse(request, response);
+                
                 break;
             }
             default: {

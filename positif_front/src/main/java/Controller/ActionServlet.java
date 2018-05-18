@@ -8,6 +8,7 @@ import View.Serialization;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import fr.insalyon.dasi.positif.dao.JpaUtil;
+import fr.insalyon.dasi.positif.modele.Client;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import javax.servlet.ServletException;
@@ -17,6 +18,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -52,6 +54,9 @@ public class ActionServlet extends HttpServlet {
         String todo = request.getParameter("todo");
         System.out.println("service HTTPServletRequest");
         System.out.println(todo);
+        
+        HttpSession session = request.getSession(true);
+                
         switch(todo) {
             case "registerClient" : {
                 Action action = new RegisterClientAction();
@@ -63,6 +68,14 @@ public class ActionServlet extends HttpServlet {
                 Action action = new LoginAction();
                 action.execute(request);
                 Serialization.outputResponse(request, response);
+                Client c = (Client)request.getAttribute("data");
+                
+                session.setAttribute("user", c);
+                
+                break;
+            }
+            case "deconnexion" : {
+                session.invalidate();
                 break;
             }
             default: {
@@ -90,7 +103,7 @@ public class ActionServlet extends HttpServlet {
 
     @Override
     public void service(ServletRequest req, ServletResponse res) throws ServletException, IOException {
-        super.service(req, res); //To change body of generated methods, choose Tools | Templates.
+        super.service(req, res); //To chan;ge body of generated methods, choose Tools | Templates.
         System.out.println("service ServletRequest");
     }
 

@@ -30,6 +30,7 @@ public class LoginAction extends Action{
             
         if(c != null) {
             request.setAttribute("success", true);
+            request.setAttribute("data", c);
         }else {
             request.setAttribute("success", false);
         }

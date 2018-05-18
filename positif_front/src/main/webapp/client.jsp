@@ -29,7 +29,7 @@
                   <a class="active item" data-tab="first">Profil Astrologique</a>
                   <a class="item" data-tab="second">Consulter un Médium</a>
                   <a class="item" data-tab="third">Historique des Consultations</a>
-                  <button id="deconnexion" onclick="window.location='index.html'" class="big ui icon item button" data-content="Se déconnecter" data-position="right center" data-variation="mini">
+                  <button id="deconnexion" class="big ui icon item button" data-content="Se déconnecter" data-position="right center" data-variation="mini">
                       <i class="red power icon"></i> <!--TODO implémenter la vraie fonction de déconnexion -->
                   </button>
                 </div>
@@ -48,6 +48,26 @@
                   .tab()
                 ;
                 $('#deconnexion').popup();
+                
+                $('document').ready(() => {
+
+                console.log('document is ready');
+                $('#deconnexion').on('click', function(event) {
+                    $.ajax({
+                        url: 'ActionServlet',
+                        type: 'GET',
+                        data: 'todo=deconnexion',
+                        success: () => {
+                            console.log("REUSSI");
+                            window.location = 'index.html';
+                        },
+                        error: function(xhr, resp, text) {
+                            $('#server_error').transition('jiggle');
+                            console.log(xhr, resp, text);
+                        }
+                    });
+                });
+            });
             </script>  
     </body>
 </html>

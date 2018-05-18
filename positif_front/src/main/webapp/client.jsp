@@ -43,6 +43,15 @@
                     <%@ include file="history.html" %>
                 </div>
             </div>  
+                <div class="my_alert">
+                    <div id="deco_error" class="mini error ui message">
+                        <i class="close icon" onclick=" $(this).closest('.error.message').transition('zoom');"></i>
+                        <div class="header">
+                            Échec de la déconnexion
+                        </div>
+                    </div>
+                </div>      
+            </div>  
             <script type="text/javascript">
                 $('.menu .item')
                   .tab()
@@ -52,18 +61,16 @@
                 $('document').ready(() => {
 
                 console.log('document is ready');
-                $('#deconnexion').on('click', function(event) {
+                $('#deconnexion').on('click', function() {
                     $.ajax({
                         url: 'ActionServlet',
                         type: 'GET',
                         data: 'todo=deconnexion',
                         success: () => {
-                            console.log("REUSSI");
                             window.location = 'index.html';
                         },
                         error: function(xhr, resp, text) {
-                            $('#server_error').transition('jiggle');
-                            console.log(xhr, resp, text);
+                            $('#deco_error').transition('jiggle');
                         }
                     });
                 });

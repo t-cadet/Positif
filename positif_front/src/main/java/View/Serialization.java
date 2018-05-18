@@ -27,7 +27,9 @@ public class Serialization {
     */
     public static void outputResponse(HttpServletRequest request, HttpServletResponse response) {
         JsonObject resp = new JsonObject();
-        resp.add("success", gson.toJsonTree(request.getAttribute("success")));
+        if(request.getAttribute("success")!=null) {
+            resp.add("success", gson.toJsonTree(request.getAttribute("success")));
+        }
         if(request.getAttribute("data")!=null) {
             resp.add("data", gson.toJsonTree(request.getAttribute("data")));
         }

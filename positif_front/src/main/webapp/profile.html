@@ -1,16 +1,40 @@
 <%@ page contentType="text/html;charset=utf-8" pageEncoding="UTF-8" %>
 
-<div class="ui horizontal divider"><h2>${sessionScope.user.getPrenom()} ${sessionScope.user.getNom()}</h2></div>
+<div id="name" class="ui horizontal divider"><h2></h2></div>
 <div class="ui equal width two column grid">
 	<div class="column right aligned">Signe du Zodiaque</div>
-	<div id="zodiac" class="column">${sessionScope.user.getSigneZodiaque()}</div>
+	<div id="zodiac" class="column"></div>
 
 	<div class="column right aligned">Signe Astrologique Chinois</div>
-	<div id="astro" class="column">${sessionScope.user.getSigneAstroChinois()}</div>
+	<div id="astro" class="column"></div>
 
 	<div class="column right aligned">Couleur Porte-Bonheur</div>
-	<div id="color" class="column">${sessionScope.user.getCouleurPorteBonheur()}</div>
+	<div id="color" class="column"></div>
 
 	<div class="column right aligned">Animal Totem</div>
-	<div id="animal" class="column">${sessionScope.user.getAnimalTotem()}</div>
+	<div id="animal" class="column"></div>
 </div>  
+
+<script type="text/javascript">
+	$('document').ready(() => {          
+        $.ajax({
+            url: './ActionServlet',
+            type: 'POST',
+            dataType: 'json',
+            data: 'todo=session',
+            success: (resp) => {
+                console.log('profile success');
+                console.log(resp);
+            	$('#name').text(resp.data.nom + ' ' + resp.data.prenom);
+            	$('#zodiac').text(resp.data.signeZodiaque);
+            	$('#astro').text(resp.data.signeAstroChinois);
+            	$('#color').text(resp.data.couleurPorteBonheur);
+            	$('#animal').text(resp.data.animalTotem);
+            },
+            error: function(xhr, resp, text) {
+                $('#server_error').transition('jiggle');
+                console.log(xhr, resp, text);
+            },
+        });
+    });    
+</script>

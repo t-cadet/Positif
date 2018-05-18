@@ -51,17 +51,15 @@
 	            data: 'todo=getMediumList',
 	            success: (resp) => {
 	                console.log('request success');
-	                console.log(resp);
 	                if(resp.success) {
-	                	console.log(resp);
-	                	for(m in resp.data) {
+	                	resp.data.forEach((m) => {
 	                		$('#mediums_container').append(`
-	                		<tr onclick="printBio()">
-							    <td>`+m.getNom()+`</td>
-							    <td>`+m.getTalent()+`</td>
-							    <span style="display: none">`+m.getBio()`+</span>
-			    			</tr>`)
-	                	}	
+	                		<tr class="print_bio">
+							    <td>`+m.nom+`</td>
+							    <td>`+m.talent+`</td>
+							    <span style="display: none">`+m.bio+`</span>
+			    			</tr>`);
+	                	});
 	                }
 	                else {
 	                    $('#data_error').transition('jiggle');
@@ -76,9 +74,10 @@
 	            },
 	        });
 	    });
-		function printBio() {
-			console.log("Sélection d'un médium");
-			$('#bio_container').text($(this).children('span').text());
-		}
+	    $('.print_bio').on('click', () => {
+	    	console.log("Sélection d'un médium");
+	    	console.log($(this));
+	    	$('#bio_container').text($(this).children('span').text());
+	    });
 	</script>
 </div>	

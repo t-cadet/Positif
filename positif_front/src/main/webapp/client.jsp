@@ -29,7 +29,7 @@
                   <a class="active item" data-tab="first">Profil Astrologique</a>
                   <a class="item" data-tab="second">Consulter un Médium</a>
                   <a class="item" data-tab="third">Historique des Consultations</a>
-                  <button id="deconnexion" onclick="window.location='index.html'" class="big ui icon item button" data-content="Se déconnecter" data-position="right center" data-variation="mini">
+                  <button id="deconnexion" class="big ui icon item button" data-content="Se déconnecter" data-position="right center" data-variation="mini">
                       <i class="red power icon"></i> <!--TODO implémenter la vraie fonction de déconnexion -->
                   </button>
                 </div>
@@ -43,11 +43,38 @@
                     <%@ include file="history.html" %>
                 </div>
             </div>  
+                <div class="my_alert">
+                    <div id="deco_error" class="mini error ui message">
+                        <i class="close icon" onclick=" $(this).closest('.error.message').transition('zoom');"></i>
+                        <div class="header">
+                            Échec de la déconnexion
+                        </div>
+                    </div>
+                </div>      
+            </div>  
             <script type="text/javascript">
                 $('.menu .item')
                   .tab()
                 ;
                 $('#deconnexion').popup();
+                
+                $('document').ready(() => {
+
+                console.log('document is ready');
+                $('#deconnexion').on('click', function() {
+                    $.ajax({
+                        url: 'ActionServlet',
+                        type: 'GET',
+                        data: 'todo=deconnexion',
+                        success: () => {
+                            window.location = 'index.html';
+                        },
+                        error: function(xhr, resp, text) {
+                            $('#deco_error').transition('jiggle');
+                        }
+                    });
+                });
+            });
             </script>  
     </body>
 </html>

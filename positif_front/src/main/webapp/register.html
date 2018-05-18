@@ -118,8 +118,6 @@
                         dataType: 'json',
                         data: $(this).serialize(),
                         success: (resp) => {
-                            console.log('request success');
-                            console.log(resp);
                             if(resp.success) {
                                 $('#connexion_info').transition('jiggle');
                                 $('#form_success').transition('jiggle');   
@@ -130,11 +128,7 @@
                         },
                         error: function(xhr, resp, text) {
                             $('#server_error').transition('jiggle');
-                            console.log(xhr, resp, text);
-                            /*document.open();
-                            document.write(xhr.responseText);
-                            document.close();*/
-                        },
+                        }
                     });
                 });
             });

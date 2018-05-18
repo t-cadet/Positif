@@ -2,6 +2,7 @@ package Controller;
 
 
 import Action.Action;
+import Action.GetMediumListAction;
 import Action.LoginAction;
 import Action.RegisterClientAction;
 import View.Serialization;
@@ -88,6 +89,11 @@ public class ActionServlet extends HttpServlet {
                 Serialization.outputResponse(request, response);
                 
                 break;
+            }
+            case "getMediumList" : {
+                Action action = new GetMediumListAction();
+                action.execute(request);
+                Serialization.outputResponse(request, response);
             }
             default: {
                 System.err.println("La requête " + request.toString() + " n'est pas une requête valide.");

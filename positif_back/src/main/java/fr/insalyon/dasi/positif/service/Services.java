@@ -8,6 +8,7 @@ package fr.insalyon.dasi.positif.service;
 import fr.insalyon.dasi.positif.service.utils.AstroApi;
 import fr.insalyon.dasi.positif.dao.ClientDAO;
 import fr.insalyon.dasi.positif.dao.EmployeDAO;
+import fr.insalyon.dasi.positif.dao.JpaUtil;
 import fr.insalyon.dasi.positif.dao.MediumDAO;
 import fr.insalyon.dasi.positif.dao.VoyanceDAO;
 import fr.insalyon.dasi.positif.modele.Astrologue;
@@ -19,6 +20,7 @@ import fr.insalyon.dasi.positif.modele.Voyance;
 import fr.insalyon.dasi.positif.modele.Voyant;
 import fr.insalyon.dasi.positif.service.utils.EnvoiMail;
 import fr.insalyon.dasi.positif.service.utils.EnvoiSMS;
+import static fr.insalyon.dasi.positif.vue.InterfaceEmploye.FenetreEmployeConnexion;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -469,5 +471,10 @@ public class Services {
             }
         }
     }
-    
+    public static void main(String [] args) {
+        JpaUtil.init();
+        importerDonnees("./src/main/resources/clients.csv");
+        JpaUtil.destroy();
+    } 
 }
+

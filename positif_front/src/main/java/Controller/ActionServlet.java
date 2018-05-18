@@ -2,6 +2,7 @@ package Controller;
 
 
 import Action.Action;
+import Action.LoginAction;
 import Action.RegisterClientAction;
 import View.Serialization;
 import com.google.gson.Gson;
@@ -59,7 +60,9 @@ public class ActionServlet extends HttpServlet {
                 break;
             }
             case "login" : {
-                System.out.println("Login");
+                Action action = new LoginAction();
+                action.execute(request);
+                Serialization.outputResponse(request, response);
                 break;
             }
             default: {

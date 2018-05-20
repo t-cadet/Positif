@@ -3,11 +3,14 @@ package Controller;
 
 import Action.Action;
 import Action.DivinationAction;
+import Action.GenererPredictionAction;
 import Action.GetHistoryAction;
 import Action.GetMediumListAction;
 import Action.LoginAction;
 import Action.ObtenirVoyanceDemandeeAction;
 import Action.RegisterClientAction;
+import Action.VoyanceGetClientAction;
+import Action.VoyanceGetClientHistoryAction;
 import View.Serialization;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -108,6 +111,24 @@ public class ActionServlet extends HttpServlet {
             }
             case "obtenirVoyanceDemandee" : {
                 Action a = new ObtenirVoyanceDemandeeAction(session);
+                a.execute(request);
+                Serialization.outputResponse(request, response);                
+                break;
+            }
+            case "voyanceGetClient" : {
+                Action a = new VoyanceGetClientAction(session);
+                a.execute(request);
+                Serialization.outputResponse(request, response);                
+                break;
+            }
+            case "voyanceGetClientHistory" : {
+                Action a = new VoyanceGetClientHistoryAction(session);
+                a.execute(request);
+                Serialization.outputResponse(request, response);                
+                break;
+            }
+            case "prediction" : {
+                Action a = new GenererPredictionAction(session);
                 a.execute(request);
                 Serialization.outputResponse(request, response);                
                 break;

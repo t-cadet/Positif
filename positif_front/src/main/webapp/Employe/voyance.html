@@ -52,7 +52,7 @@
 				<h2>Générer une prédiction</h2>
 				<div class="ui stackable grid">
 					<div class="five wide column">
-						<form method="POST" action="../ActionServlet" class="ui form">
+						<form id="prediction" method="POST" action="../ActionServlet" class="ui form">
 							<input class="ui button" id="submit" type="submit" name="submit" value="Générer la prédiction">
 					        <div class="field">
 					            <label for="love">Note amour</label>
@@ -70,10 +70,8 @@
 						</form> 
 					</div>
 					<div class="eleven wide column">
-						<div class="ui padded segment" style="text-align: justify; overflow-y: auto; max-height: 95%; height:95%">
-							<p id="prediction_container">
-									
-							</p>
+						<div id="prediction_container" class="ui padded segment" style="overflow-y: auto; max-height: 95%; height:95%">
+					
 						</div>
 					</div>
 				</div>
@@ -86,10 +84,10 @@
 							<button id="start_voyance" style="width:100%" class="ui button">Commencer la voyance</button>
 						</div>
 						<div class="ui basic segment">
-							<button id="end_voyance" style="width:100%" class="ui button">Terminer la voyance</button>
+							<button disabled id="end_voyance" style="width:100%" class="ui button">Terminer la voyance</button>
 						</div>
 						<div class="ui basic segment">
-							<button id="validation" style="width:100%" class="ui button">Valider</button>
+							<button disabled id="validation" style="width:100%" class="ui button">Valider</button>
 						</div>
 					</div>
 					<div class="eleven wide column">
@@ -97,6 +95,108 @@
 					</div>	
 				</div>		
 			</div>
-		</div>	
+			<div class="my_alert">
+			    <div id="server_error" class="mini error ui message">
+			        <i class="close icon" onclick=" $(this).closest('.message').transition('zoom');"></i>
+			        <div class="header">
+			            Erreur interne du serveur
+			        </div>
+			        <p>Veuillez réessayer ultérieurement.</p>
+			    </div>
+			    <div id="voyanceGetClient_error" class="mini error ui message">
+			        <i class="close icon" onclick=" $(this).closest('.error.message').transition('zoom');"></i>
+			        <div class="header">
+			            Les informations du client <br /> n'ont pas pu être récupérées
+			        </div>
+			    </div>
+			    <div id="voyanceGetClientHistory_error" class="mini error ui message">
+			        <i class="close icon" onclick=" $(this).closest('.error.message').transition('zoom');"></i>
+			        <div class="header">
+			            L'historique du client <br /> n'a pas pu être récupéré
+			        </div>
+			    </div>
+			    <div id="prediction_error" class="mini error ui message">
+			        <i class="close icon" onclick=" $(this).closest('.error.message').transition('zoom');"></i>
+			        <div class="header">
+			            La prédiction n'a pu être réalisée
+			        </div>
+			        <p>Veuillez réessayer ultérieurement</p>
+			    </div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			$('document').ready(() => {
+			    console.log('document is ready');
+		        $.ajax({
+		            url: '../ActionServlet',
+		            type: 'POST',
+		            data: 'todo=voyanceGetClient',
+		            success: (resp) => {
+		                if(resp.success) {
+	                		console.log('voyanceGetClient success');
+	                		$('#lastName').text(resp.data.nom);
+	                		$('#firstName').text(resp.data.prenom);
+	                		$('#zodiac').text(resp.data.signeZodiaque);
+	                		$('#astro').text(resp.data.signeAstroChinois);
+	                		$('#color').text(resp.data.couleurPorteBonheur);
+	                		$('#animal').text(resp.data.animalTotem); 
+		                }
+		                else {
+		                    $('#voyanceGetClient_error').transition('jiggle');
+		                }
+		            },
+		            error: function(xhr, resp, text) {
+		                $('#server_error').transition('jiggle');
+		            }
+		        });
+
+    	        $.ajax({
+    	            url: '../ActionServlet',
+    	            type: 'POST',
+    	            data: 'todo=voyanceGetClientHistory',
+    	            success: (resp) => {
+    	                if(resp.success) {
+                    		console.log('voyanceGetClientHistory success');
+                    		
+    	                }
+    	                else {
+    	                    $('#voyanceGetClientHistory_error').transition('jiggle');
+    	                }
+    	            },
+    	            error: function(xhr, resp, text) {
+    	                $('#server_error').transition('jiggle');
+    	            }
+    	        });	
+
+    	        $('#prediction').on('submit', function(event) {
+    	            event.preventDefault();
+    	            console.log('prediction form submitted');   
+    	            console.log($(this).serialize());  
+    	            $('.my_alert').children().hide();              
+    	            $.ajax({
+    	                url: $(this).attr('action'),
+    	                type: $(this).attr('method'),
+    	                dataType: 'json',
+    	                data: $(this).serialize(),
+    	                success: (resp) => {
+    	                    if(resp.success) {
+    	                    	console.log(resp.data);
+    	                    	resp.data.forEach((paragraph)=> {
+    	                    		$('#prediction_container').append('<p style="text-align: justify;">'+paragraph+'</p>'); 
+    	                    	});
+    	                    }
+    	                    else {
+    	                    	console.log('prediction_error');
+    	                        $('#prediction_error').transition('jiggle');
+    	                    }
+    	                },
+    	                error: function(xhr, resp, text) {
+    	                    console.log('server_error');
+    	                    $('#server_error').transition('jiggle');
+    	                }
+    	            });
+    	        });        	       	
+			});
+		</script>	
 	</body>
 </html>				

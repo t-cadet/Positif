@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Client</title>
+        <title>Employé</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css">
@@ -26,21 +26,14 @@
         <div class="ui padded centered grid">
             <div class="fifteen wide column">
                 <div class="ui top attached tabular menu">
-                  <a class="active item" data-tab="first">Profil Astrologique</a>
-                  <a class="item" data-tab="second">Consulter un Médium</a>
-                  <a class="item" data-tab="third">Historique des Consultations</a>
+                  <a class="active item" data-tab="first">Tableau de Bord</a>
+                  <a class="item" href="voyance.html">Voyance</a>
                   <button id="deconnexion" class="big ui icon item button" data-content="Se déconnecter" data-position="right center" data-variation="mini">
-                      <i class="red power icon"></i> <!--TODO implémenter la vraie fonction de déconnexion -->
+                      <i class="red power icon"></i> 
                   </button>
                 </div>
                 <div class="ui bottom attached active tab segment" data-tab="first">
-                    <%@ include file="profile.html" %>
-                </div>
-                <div class="ui bottom attached tab segment" data-tab="second">
-                    <%@ include file="consult.html" %>
-                </div>
-                <div class="ui bottom attached tab segment" data-tab="third">
-                    <%@ include file="history.html" %>
+                    <%@ include file="dashboard.html" %>
                 </div>
             </div>  
                 <div class="my_alert">

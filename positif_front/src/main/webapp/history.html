@@ -13,13 +13,8 @@
                                     <th>Durée</th>
 			  	</tr>
 			</thead>
-			  <tbody>
-			    <tr>
-			      <td>Gwenaël</td>
-			      <td>Voyant</td>
-                              <td>Voyant</td>
-			    </tr>
-			  
+			  <tbody id="mediums_container">
+			    
 			  </tbody>
 		</table>
 	</div>
@@ -47,14 +42,25 @@
                         type: 'GET',
                         data: 'todo=historiqueClient',
                         success: (resp) => {
-                            console.log('request success');
+                            if(resp.success) {
+	                	resp.data.forEach((m) => {
+	                		$('#mediums_container').append(`
+	                		<tr class="print_bio">
+							    <td>`+m.nom+`</td>
+							    <td>`+m.talent+`</td>
+							    <span style="display: none">`+m.bio+`</span>
+			    			</tr>`);
+	                	});
+	                }
+	                else {
+	                    $('#data_error').transition('jiggle');
+	                }
                         },
                         error: function(xhr, resp, text) {
                             $('#server_error').transition('jiggle');
                         }
                     });
-                    
-                    
+                                       
                     
             });
         </script>

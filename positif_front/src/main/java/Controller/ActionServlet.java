@@ -85,7 +85,8 @@ public class ActionServlet extends HttpServlet {
                 break;
             }
             case "historiqueClient" : {
-                request.setAttribute("data", session.getAttribute("user"));
+                Action action = new GetHistoryAction((Client)session.getAttribute("user"));
+                action.execute(request);
                 Serialization.outputResponse(request, response);
                 
                 break;

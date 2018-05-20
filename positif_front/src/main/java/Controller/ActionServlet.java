@@ -3,6 +3,7 @@ package Controller;
 
 import Action.Action;
 import Action.DivinationAction;
+import Action.GetHistoryAction;
 import Action.GetMediumListAction;
 import Action.LoginAction;
 import Action.RegisterClientAction;

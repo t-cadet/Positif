@@ -1,3 +1,359 @@
-Voyance 
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Voyance</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css">
+        <link rel="stylesheet" type ="text/css" href="../my_styles.css" />
+        <script
+          src="https://code.jquery.com/jquery-3.3.1.min.js"
+          integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+          crossorigin="anonymous">
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.js"></script>
+    </head>
+    <body style="background: linear-gradient(to right, #fafafa, #fefefe)">
+		<div class="ui padded stackable two column grid">
+			<div class="six wide column">
+				<h2>Profil Client</h2>
+				<div class="ui equal width two column grid">
+					<div class="column">Nom</div>
+					<div id="lastName" class="column right aligned"></div>
+
+					<div class="column">Prénom</div>
+					<div id="firstName" class="column  right aligned"></div>
+
+					<div class="column">Signe du Zodiaque</div>
+					<div id="zodiac" class="column  right aligned"></div>
+
+					<div class="column">Signe Astrologique Chinois</div>
+					<div id="astro" class="column  right aligned"></div>
+
+					<div class="column">Couleur Porte-Bonheur</div>
+					<div id="color" class="column  right aligned"></div>
+
+					<div class="column">Animal Totem</div>
+					<div id="animal" class="column  right aligned"></div>
+				</div>  
+			</div>
+			<div class="ten wide column">
+				<h2>Historique Client</h2>
+				<div class="ui grid">
+					<div class="eight wide column">
+						<div style="overflow-y: auto; max-height: 70vh;">
+							<table class="ui violet table">
+								<thead>
+									<tr>
+										<th>Date</th>
+									    <th>Médium</th>
+									    <th>Durée</th>
+								  	</tr>
+								</thead>
+							    <tbody id="voyances_container">
+							    
+							    </tbody>
+							</table>
+						</div>
+					</div>
+					<div class="eight wide column">
+						<textarea class="ui padded segment" readonly id="comment_selected" placeholder="Aucun commentaire sur la voyance sélectionnée..." style="text-align: justify;max-height: 95%; overflow-y: auto; height:95%; width:90%;"></textarea>
+					</div>	
+				</div>
+			</div>
+			<div class="column">
+				<h2>Générer une prédiction</h2>
+				<div class="ui stackable grid">
+					<div class="five wide column">
+						<form id="prediction" method="POST" action="../ActionServlet" class="ui form">
+							<div class="field">
+								<input class="ui small button" id="submit" type="submit" name="submit" value="Générer la prédiction">
+							</div>
+					        <div class="field">
+					            <label for="love">Note amour</label>
+					            <input type="number" id="love" name="love" min="1" max="4">
+					        </div>
+					        <div class="field">
+					            <label for="work">Note travail</label>
+					            <input type="number" id="work" name="work" min="1" max="4">
+					        </div>
+					        <div class="field">
+					            <label for="health">Note santé</label>
+					            <input type="number" id="health" name="health" min="1" max="4">
+					        </div>		     
+						    <input type="hidden" name="todo" value="prediction" />
+						</form> 
+					</div>
+					<div class="eleven wide column">
+						<div id="prediction_container" class="ui padded segment" style="overflow-y: auto; max-height: 95%; height:95%">
+					
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="column">
+				<h2>Gérer la voyance (Médium demandé : <span id="medium_name"></span>)</h2>
+				<div class="ui stackable grid">
+					<div class="five wide column">
+						<div class="ui basic segment ">
+							<button id="start_voyance" style="width:100%" class="ui button">Commencer la voyance</button>
+						</div>
+						<div class="ui basic segment">
+							<button disabled id="end_voyance" style="width:100%" class="ui button">Terminer la voyance</button>
+						</div>
+						<div class="ui basic segment">
+							<button disabled id="validation" style="width:100%" class="ui button">Valider</button>
+						</div>
+					</div>
+					<div class="eleven wide column">
+						<textarea id="comment" placeholder="Commentaire sur la voyance en cours..." style="text-align: justify;max-height: 95%; height:95%; width:90%;"></textarea>
+					</div>	
+				</div>		
+			</div>
+			<div class="my_alert">
+			    <div id="server_error" class="mini error ui message">
+			        <i class="close icon" onclick=" $(this).closest('.message').transition('zoom');"></i>
+			        <div class="header">
+			            Erreur interne du serveur
+			        </div>
+			        <p>Veuillez réessayer ultérieurement.</p>
+			    </div>
+			    <div id="voyanceGetMedium_error" class="mini error ui message">
+			        <i class="close icon" onclick=" $(this).closest('.error.message').transition('zoom');"></i>
+			        <div class="header">
+			            Le nom du médium n'a pu être récupéré
+			        </div>
+			    </div>
+			    <div id="voyanceGetClient_error" class="mini error ui message">
+			        <i class="close icon" onclick=" $(this).closest('.error.message').transition('zoom');"></i>
+			        <div class="header">
+			            Les informations du client <br /> n'ont pas pu être récupérées
+			        </div>
+			    </div>
+			    <div id="voyanceGetClientHistory_error" class="mini error ui message">
+			        <i class="close icon" onclick=" $(this).closest('.error.message').transition('zoom');"></i>
+			        <div class="header">
+			            L'historique du client <br /> n'a pas pu être récupéré
+			        </div>
+			    </div>
+			    <div id="prediction_error" class="mini error ui message">
+			        <i class="close icon" onclick=" $(this).closest('.error.message').transition('zoom');"></i>
+			        <div class="header">
+			            La prédiction n'a pu être réalisée
+			        </div>
+			        <p>Veuillez réessayer ultérieurement</p>
+			    </div>
+			    <div id="commencerVoyance_error" class="mini error ui message">
+			        <i class="close icon" onclick=" $(this).closest('.error.message').transition('zoom');"></i>
+			        <div class="header">
+			            La voyance n'a pu être commencée
+			        </div>
+			        <p>Veuillez réessayer ultérieurement</p>
+			    </div>
+			    <div id="terminerVoyance_error" class="mini error ui message">
+			        <i class="close icon" onclick=" $(this).closest('.error.message').transition('zoom');"></i>
+			        <div class="header">
+			            La voyance n'a pu être terminée
+			        </div>
+			        <p>Veuillez réessayer ultérieurement</p>
+			    </div>
+			    <div id="validerVoyance_error" class="mini error ui message">
+			        <i class="close icon" onclick=" $(this).closest('.error.message').transition('zoom');"></i>
+			        <div class="header">
+			            La voyance n'a pu être validée
+			        </div>
+			        <p>Veuillez réessayer ultérieurement</p>
+			    </div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			$('document').ready(() => {
+			    console.log('document is ready');
+    	        $.ajax({
+    	            url: '../ActionServlet',
+    	            type: 'POST',
+    	            data: 'todo=voyanceGetMedium',
+    	            success: (resp) => {
+    	                if(resp.success) {
+                    		console.log('voyanceGetMedium success');
+                    		$('#medium_name').text(resp.data.nom);
+    	                }
+    	                else {
+    	                    $('#voyanceGetMedium_error').transition('jiggle');
+    	                }
+    	            },
+    	            error: function(xhr, resp, text) {
+    	                $('#server_error').transition('jiggle');
+    	            }
+    	        });
+
+		        $.ajax({
+		            url: '../ActionServlet',
+		            type: 'POST',
+		            data: 'todo=voyanceGetClient',
+		            success: (resp) => {
+		                if(resp.success) {
+	                		console.log('voyanceGetClient success');
+	                		$('#lastName').text(resp.data.nom);
+	                		$('#firstName').text(resp.data.prenom);
+	                		$('#zodiac').text(resp.data.signeZodiaque);
+	                		$('#astro').text(resp.data.signeAstroChinois);
+	                		$('#color').text(resp.data.couleurPorteBonheur);
+	                		$('#animal').text(resp.data.animalTotem); 
+		                }
+		                else {
+		                    $('#voyanceGetClient_error').transition('jiggle');
+		                }
+		            },
+		            error: function(xhr, resp, text) {
+		                $('#server_error').transition('jiggle');
+		            }
+		        });
+
+    	        $.ajax({
+    	            url: '../ActionServlet',
+    	            type: 'POST',
+    	            data: 'todo=voyanceGetClientHistory',
+    	            success: (resp) => {
+    	            	console.log(resp);
+    	                if(resp.success) {
+                    		console.log('voyanceGetClientHistory success');
+		                	resp.data.forEach((voyance) => {
 
 
+		                		let debut = new Date(voyance.debut);
+
+		                		let diff = new Date(Date.parse(voyance.fin)-Date.parse(voyance.debut))/1000;
+		                		let hour = Math.floor(diff/3600);
+		                		if(hour < 10) {hour = "0" + hour}
+		                		let min = Math.floor((diff%=3600)/60);
+		                		if(min < 10) {min = "0" + min}
+		                		let sec = Math.floor(diff%60);
+		                		if(sec < 10) {sec = "0" + sec}
+
+		                		$('#voyances_container').append(`
+		                		<tr class="print_comment" data-comment="`+voyance.commentaire+`">
+								    <td>`+debut.toLocaleDateString()+`</td>
+								    <td>`+(voyance.medium?voyance.medium.nom:"")+`</td>
+								    <td>`+hour+`:`+min+`:`+sec+`</td>
+				    			</tr>`);
+		                	});
+		                	$('#voyances_container').children(':first').click();
+    	                }
+    	                else {
+    	                    $('#voyanceGetClientHistory_error').transition('jiggle');
+    	                }
+    	            },
+    	            error: function(xhr, resp, text) {
+    	                $('#server_error').transition('jiggle');
+    	            }
+    	        });	
+
+    	        $('#voyances_container').on('click', '.print_comment', function() {
+    	        	$('#comment_selected').text($(this).data('comment'));
+    	        	$('#voyances_container > .print_comment').removeClass('active');
+    	        	$(this).addClass('active');
+    	        });
+
+    	        $('#prediction').on('submit', function(event) {
+    	            event.preventDefault();
+    	            console.log('prediction form submitted');   
+    	            console.log($(this).serialize());  
+    	            $('.my_alert').children().hide();              
+    	            $.ajax({
+    	                url: $(this).attr('action'),
+    	                type: $(this).attr('method'),
+    	                dataType: 'json',
+    	                data: $(this).serialize(),
+    	                success: (resp) => {
+    	                    if(resp.success) {
+    	                    	console.log(resp.data);
+    	                    	resp.data.forEach((paragraph)=> {
+    	                    		$('#prediction_container').append('<p style="text-align: justify;">'+paragraph+'</p>'); 
+    	                    	});
+    	                    }
+    	                    else {
+    	                    	console.log('prediction_error');
+    	                        $('#prediction_error').transition('jiggle');
+    	                    }
+    	                },
+    	                error: function(xhr, resp, text) {
+    	                    console.log('server_error');
+    	                    $('#server_error').transition('jiggle');
+    	                }
+    	            });
+    	        });    
+    	        $('#start_voyance').on('click', function() {
+    	        	$.ajax({
+    	        	    url: '../ActionServlet',
+    	        	    type: 'POST',
+    	        	    dataType: 'json',
+    	        	    data: 'todo=commencerVoyance',
+    	        	    success: (resp) => {
+    	        	    	console.log('commencerVoyance' + resp.success);
+    	        	        if(resp.success) {
+    	        	        	$(this).prop('disabled', true);
+    	        	        	$('#end_voyance').prop('disabled', false);
+    	        	        }
+    	        	        else {
+    	        	        	console.log('commencerVoyance_error');
+    	        	            $('#commencerVoyance_error').transition('jiggle');
+    	        	        }
+    	        	    },
+    	        	    error: function(xhr, resp, text) {
+    	        	        console.log('server_error');
+    	        	        $('#server_error').transition('jiggle');
+    	        	    }
+    	        	});
+    	        });
+
+    	        $('#end_voyance').on('click', function() {
+    	        	$.ajax({
+    	        	    url: '../ActionServlet',
+    	        	    type: 'POST',
+    	        	    dataType: 'json',
+    	        	    data: 'todo=terminerVoyance',
+    	        	    success: (resp) => {
+    	        	    	console.log('terminerVoyance' + resp.success);
+    	        	        if(resp.success) {
+    	        	        	$(this).prop('disabled', true);
+    	        	        	$('#validation').prop('disabled', false);
+    	        	        }
+    	        	        else {
+    	        	        	console.log('terminerVoyance_error');
+    	        	            $('#terminerVoyance_error').transition('jiggle');
+    	        	        }
+    	        	    },
+    	        	    error: function(xhr, resp, text) {
+    	        	        console.log('server_error');
+    	        	        $('#server_error').transition('jiggle');
+    	        	    }
+    	        	});
+    	        }); 
+
+    	        $('#validation').on('click', function() {
+    	        	$.ajax({
+    	        	    url: '../ActionServlet',
+    	        	    type: 'POST',
+    	        	    dataType: 'json',
+    	        	    data: 'todo=validerVoyance&comment='+$('#comment').val(),
+    	        	    success: (resp) => {
+    	        	    	console.log('validerVoyance' + resp.success);
+    	        	        if(resp.success) {
+    	        	        	window.location='employee.jsp';
+    	        	        }
+    	        	        else {
+    	        	        	console.log('validerVoyance_error');
+    	        	            $('#validerVoyance_error').transition('jiggle');
+    	        	        }
+    	        	    },
+    	        	    error: function(xhr, resp, text) {
+    	        	        console.log('server_error');
+    	        	        $('#server_error').transition('jiggle');
+    	        	    }
+    	        	});
+    	        });         	       	
+			});
+		</script>	
+	</body>
+</html>				

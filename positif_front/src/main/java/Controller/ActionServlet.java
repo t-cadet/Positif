@@ -2,12 +2,20 @@ package Controller;
 
 
 import Action.Action;
+import Action.CommencerVoyanceAction;
 import Action.DivinationAction;
+import Action.GenererPredictionAction;
 import Action.GetHistoryAction;
 import Action.GetMediumListAction;
 import Action.LoginAction;
 import Action.LoginEmployeAction;
+import Action.ObtenirVoyanceDemandeeAction;
 import Action.RegisterClientAction;
+import Action.TerminerVoyanceAction;
+import Action.ValiderVoyanceAction;
+import Action.VoyanceGetClientAction;
+import Action.VoyanceGetClientHistoryAction;
+import Action.VoyanceGetMediumAction;
 import View.Serialization;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -113,10 +121,57 @@ public class ActionServlet extends HttpServlet {
                 Serialization.outputResponse(request, response);
                 Employe e = (Employe)request.getAttribute("data");
                 session.setAttribute("user", e);
+            }
+            case "obtenirVoyanceDemandee" : {
+                Action a = new ObtenirVoyanceDemandeeAction(session);
+                a.execute(request);
+                Serialization.outputResponse(request, response);                
+                break;
+            }
+            case "voyanceGetMedium" : {
+                Action a = new VoyanceGetMediumAction(session);
+                a.execute(request);
+                Serialization.outputResponse(request, response);                
+                break;
+            }
+            case "voyanceGetClient" : {
+                Action a = new VoyanceGetClientAction(session);
+                a.execute(request);
+                Serialization.outputResponse(request, response);                
+                break;
+            }
+            case "voyanceGetClientHistory" : {
+                Action a = new VoyanceGetClientHistoryAction(session);
+                a.execute(request);
+                Serialization.outputResponse(request, response);                
+                break;
+            }
+            case "prediction" : {
+                Action a = new GenererPredictionAction(session);
+                a.execute(request);
+                Serialization.outputResponse(request, response);                
+                break;
+            }
+            case "commencerVoyance" : {
+                Action a = new CommencerVoyanceAction(session);
+                a.execute(request);
+                Serialization.outputResponse(request, response);                
+                break;
+            }
+            case "terminerVoyance" : {
+                Action a = new TerminerVoyanceAction(session);
+                a.execute(request);
+                Serialization.outputResponse(request, response);                
+                break;
+            }
+            case "validerVoyance" : {
+                Action a = new ValiderVoyanceAction(session);
+                a.execute(request);
+                Serialization.outputResponse(request, response);                
                 break;
             }
             default: {
-                System.err.println("La requête " + request.toString() + " n'est pas une requête valide.");
+                System.err.println("La requête " + request.toString() + " (todo = " + todo + " n'est pas une requête valide.");
                 break;
             }
         }

@@ -41,10 +41,23 @@
 				<h2>Historique Client</h2>
 				<div class="ui grid">
 					<div class="eight wide column">
-						bb
+						<div style="overflow-y: auto; max-height: 70vh;">
+							<table class="ui violet table">
+								<thead>
+									<tr>
+										<th>Date</th>
+									    <th>Médium</th>
+									    <th>Durée</th>
+								  	</tr>
+								</thead>
+							    <tbody id="voyances_container">
+							    
+							    </tbody>
+							</table>
+						</div>
 					</div>
 					<div class="eight wide column">
-						<textarea id="comment" placeholder="Commentaire sur la voyance sélectionnée..." style="text-align: justify;max-height: 95%; height:95%; width:90%;"></textarea>
+						<textarea class="ui padded segment" readonly id="comment_selected" placeholder="Aucun commentaire sur la voyance sélectionnée..." style="text-align: justify;max-height: 95%; overflow-y: auto; height:95%; width:90%;"></textarea>
 					</div>	
 				</div>
 			</div>
@@ -53,7 +66,9 @@
 				<div class="ui stackable grid">
 					<div class="five wide column">
 						<form id="prediction" method="POST" action="../ActionServlet" class="ui form">
-							<input class="ui button" id="submit" type="submit" name="submit" value="Générer la prédiction">
+							<div class="field">
+								<input class="ui small button" id="submit" type="submit" name="submit" value="Générer la prédiction">
+							</div>
 					        <div class="field">
 					            <label for="love">Note amour</label>
 					            <input type="number" id="love" name="love" min="1" max="4">
@@ -103,6 +118,12 @@
 			        </div>
 			        <p>Veuillez réessayer ultérieurement.</p>
 			    </div>
+			    <div id="voyanceGetMedium_error" class="mini error ui message">
+			        <i class="close icon" onclick=" $(this).closest('.error.message').transition('zoom');"></i>
+			        <div class="header">
+			            Le nom du médium n'a pu être récupéré
+			        </div>
+			    </div>
 			    <div id="voyanceGetClient_error" class="mini error ui message">
 			        <i class="close icon" onclick=" $(this).closest('.error.message').transition('zoom');"></i>
 			        <div class="header">
@@ -148,6 +169,24 @@
 		<script type="text/javascript">
 			$('document').ready(() => {
 			    console.log('document is ready');
+    	        $.ajax({
+    	            url: '../ActionServlet',
+    	            type: 'POST',
+    	            data: 'todo=voyanceGetMedium',
+    	            success: (resp) => {
+    	                if(resp.success) {
+                    		console.log('voyanceGetMedium success');
+                    		$('#medium_name').text(resp.data.nom);
+    	                }
+    	                else {
+    	                    $('#voyanceGetMedium_error').transition('jiggle');
+    	                }
+    	            },
+    	            error: function(xhr, resp, text) {
+    	                $('#server_error').transition('jiggle');
+    	            }
+    	        });
+
 		        $.ajax({
 		            url: '../ActionServlet',
 		            type: 'POST',
@@ -176,9 +215,30 @@
     	            type: 'POST',
     	            data: 'todo=voyanceGetClientHistory',
     	            success: (resp) => {
+    	            	console.log(resp);
     	                if(resp.success) {
                     		console.log('voyanceGetClientHistory success');
-                    		
+		                	resp.data.forEach((voyance) => {
+
+
+		                		let debut = new Date(voyance.debut);
+
+		                		let diff = new Date(Date.parse(voyance.fin)-Date.parse(voyance.debut))/1000;
+		                		let hour = Math.floor(diff/3600);
+		                		if(hour < 10) {hour = "0" + hour}
+		                		let min = Math.floor((diff%=3600)/60);
+		                		if(min < 10) {min = "0" + min}
+		                		let sec = Math.floor(diff%60);
+		                		if(sec < 10) {sec = "0" + sec}
+
+		                		$('#voyances_container').append(`
+		                		<tr class="print_comment" data-comment="`+voyance.commentaire+`">
+								    <td>`+debut.toLocaleDateString()+`</td>
+								    <td>`+(voyance.medium?voyance.medium.nom:"")+`</td>
+								    <td>`+hour+`:`+min+`:`+sec+`</td>
+				    			</tr>`);
+		                	});
+		                	$('#voyances_container').children(':first').click();
     	                }
     	                else {
     	                    $('#voyanceGetClientHistory_error').transition('jiggle');
@@ -188,6 +248,12 @@
     	                $('#server_error').transition('jiggle');
     	            }
     	        });	
+
+    	        $('#voyances_container').on('click', '.print_comment', function() {
+    	        	$('#comment_selected').text($(this).data('comment'));
+    	        	$('#voyances_container > .print_comment').removeClass('active');
+    	        	$(this).addClass('active');
+    	        });
 
     	        $('#prediction').on('submit', function(event) {
     	            event.preventDefault();
@@ -270,7 +336,7 @@
     	        	    url: '../ActionServlet',
     	        	    type: 'POST',
     	        	    dataType: 'json',
-    	        	    data: 'todo=validerVoyance&comment='+document.getElementById('comment').value,
+    	        	    data: 'todo=validerVoyance&comment='+$('#comment').val(),
     	        	    success: (resp) => {
     	        	    	console.log('validerVoyance' + resp.success);
     	        	        if(resp.success) {

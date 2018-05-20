@@ -55,25 +55,6 @@
                             Ce client n'a demandé aucune consultation
                         </div>
                     </div>
-                    <div id="voyanceGetClient_error" class="mini error ui message">
-                        <i class="close icon" onclick=" $(this).closest('.error.message').transition('zoom');"></i>
-                        <div class="header">
-                            Les informations du client <br /> n'ont pas pu être récupérées
-                        </div>
-                    </div>
-                    <div id="voyanceGetClientHistory_error" class="mini error ui message">
-                        <i class="close icon" onclick=" $(this).closest('.error.message').transition('zoom');"></i>
-                        <div class="header">
-                            L'historique du client <br /> n'a pas pu être récupéré
-                        </div>
-                    </div>
-                    <div id="prediction_error" class="mini error ui message">
-                        <i class="close icon" onclick=" $(this).closest('.error.message').transition('zoom');"></i>
-                        <div class="header">
-                            La prédiction n'a pu être réalisée
-                        </div>
-                        <p>Veuillez réessayer ultérieurement</p>
-                    </div>
                 </div> 
                 <div id="voyance_modal" class="ui modal">
                     <i class="close icon"></i>

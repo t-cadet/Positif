@@ -14,6 +14,7 @@ import Action.TerminerVoyanceAction;
 import Action.ValiderVoyanceAction;
 import Action.VoyanceGetClientAction;
 import Action.VoyanceGetClientHistoryAction;
+import Action.VoyanceGetMediumAction;
 import View.Serialization;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -118,6 +119,12 @@ public class ActionServlet extends HttpServlet {
                 Serialization.outputResponse(request, response);                
                 break;
             }
+            case "voyanceGetMedium" : {
+                Action a = new VoyanceGetMediumAction(session);
+                a.execute(request);
+                Serialization.outputResponse(request, response);                
+                break;
+            }
             case "voyanceGetClient" : {
                 Action a = new VoyanceGetClientAction(session);
                 a.execute(request);
@@ -155,7 +162,7 @@ public class ActionServlet extends HttpServlet {
                 break;
             }
             default: {
-                System.err.println("La requête " + request.toString() + " n'est pas une requête valide.");
+                System.err.println("La requête " + request.toString() + " (todo = " + todo + " n'est pas une requête valide.");
                 break;
             }
         }

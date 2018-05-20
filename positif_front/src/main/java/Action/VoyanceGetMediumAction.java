@@ -1,26 +1,28 @@
 package Action;
 
 
+import fr.insalyon.dasi.positif.modele.Medium;
 import fr.insalyon.dasi.positif.modele.Voyance;
-import fr.insalyon.dasi.positif.service.Services;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-public class ValiderVoyanceAction extends Action {
+public class VoyanceGetMediumAction extends Action {
     HttpSession s;
     
-    public ValiderVoyanceAction(HttpSession session) {
+    public VoyanceGetMediumAction(HttpSession session) {
         s = session;
     }
 
     @Override
     public void execute(HttpServletRequest request) {
         Voyance v = (Voyance)s.getAttribute("voyance");
-        String comment = request.getParameter("comment");
-        System.out.println(comment);
-        if(v!=null && Services.validerVoyance(v, comment)) {
+        Medium m = null;
+        if(v!=null) {
+            m = v.getMedium();
+        }
+        if(m!=null) {
+            request.setAttribute("data", m);
             request.setAttribute("success", true);
-            s.removeAttribute("voyance");
         }
         else {
             request.setAttribute("success", false);

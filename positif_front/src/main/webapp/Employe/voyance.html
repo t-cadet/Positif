@@ -122,6 +122,27 @@
 			        </div>
 			        <p>Veuillez réessayer ultérieurement</p>
 			    </div>
+			    <div id="commencerVoyance_error" class="mini error ui message">
+			        <i class="close icon" onclick=" $(this).closest('.error.message').transition('zoom');"></i>
+			        <div class="header">
+			            La voyance n'a pu être commencée
+			        </div>
+			        <p>Veuillez réessayer ultérieurement</p>
+			    </div>
+			    <div id="terminerVoyance_error" class="mini error ui message">
+			        <i class="close icon" onclick=" $(this).closest('.error.message').transition('zoom');"></i>
+			        <div class="header">
+			            La voyance n'a pu être terminée
+			        </div>
+			        <p>Veuillez réessayer ultérieurement</p>
+			    </div>
+			    <div id="validerVoyance_error" class="mini error ui message">
+			        <i class="close icon" onclick=" $(this).closest('.error.message').transition('zoom');"></i>
+			        <div class="header">
+			            La voyance n'a pu être validée
+			        </div>
+			        <p>Veuillez réessayer ultérieurement</p>
+			    </div>
 			</div>
 		</div>
 		<script type="text/javascript">
@@ -195,7 +216,77 @@
     	                    $('#server_error').transition('jiggle');
     	                }
     	            });
-    	        });        	       	
+    	        });    
+    	        $('#start_voyance').on('click', function() {
+    	        	$.ajax({
+    	        	    url: '../ActionServlet',
+    	        	    type: 'POST',
+    	        	    dataType: 'json',
+    	        	    data: 'todo=commencerVoyance',
+    	        	    success: (resp) => {
+    	        	    	console.log('commencerVoyance' + resp.success);
+    	        	        if(resp.success) {
+    	        	        	$(this).prop('disabled', true);
+    	        	        	$('#end_voyance').prop('disabled', false);
+    	        	        }
+    	        	        else {
+    	        	        	console.log('commencerVoyance_error');
+    	        	            $('#commencerVoyance_error').transition('jiggle');
+    	        	        }
+    	        	    },
+    	        	    error: function(xhr, resp, text) {
+    	        	        console.log('server_error');
+    	        	        $('#server_error').transition('jiggle');
+    	        	    }
+    	        	});
+    	        });
+
+    	        $('#end_voyance').on('click', function() {
+    	        	$.ajax({
+    	        	    url: '../ActionServlet',
+    	        	    type: 'POST',
+    	        	    dataType: 'json',
+    	        	    data: 'todo=terminerVoyance',
+    	        	    success: (resp) => {
+    	        	    	console.log('terminerVoyance' + resp.success);
+    	        	        if(resp.success) {
+    	        	        	$(this).prop('disabled', true);
+    	        	        	$('#validation').prop('disabled', false);
+    	        	        }
+    	        	        else {
+    	        	        	console.log('terminerVoyance_error');
+    	        	            $('#terminerVoyance_error').transition('jiggle');
+    	        	        }
+    	        	    },
+    	        	    error: function(xhr, resp, text) {
+    	        	        console.log('server_error');
+    	        	        $('#server_error').transition('jiggle');
+    	        	    }
+    	        	});
+    	        }); 
+
+    	        $('#validation').on('click', function() {
+    	        	$.ajax({
+    	        	    url: '../ActionServlet',
+    	        	    type: 'POST',
+    	        	    dataType: 'json',
+    	        	    data: 'todo=validerVoyance&comment='+document.getElementById('comment').value,
+    	        	    success: (resp) => {
+    	        	    	console.log('validerVoyance' + resp.success);
+    	        	        if(resp.success) {
+    	        	        	window.location='employee.jsp';
+    	        	        }
+    	        	        else {
+    	        	        	console.log('validerVoyance_error');
+    	        	            $('#validerVoyance_error').transition('jiggle');
+    	        	        }
+    	        	    },
+    	        	    error: function(xhr, resp, text) {
+    	        	        console.log('server_error');
+    	        	        $('#server_error').transition('jiggle');
+    	        	    }
+    	        	});
+    	        });         	       	
 			});
 		</script>	
 	</body>

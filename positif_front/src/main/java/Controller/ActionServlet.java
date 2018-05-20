@@ -2,6 +2,7 @@ package Controller;
 
 
 import Action.Action;
+import Action.CommencerVoyanceAction;
 import Action.DivinationAction;
 import Action.GenererPredictionAction;
 import Action.GetHistoryAction;
@@ -9,6 +10,8 @@ import Action.GetMediumListAction;
 import Action.LoginAction;
 import Action.ObtenirVoyanceDemandeeAction;
 import Action.RegisterClientAction;
+import Action.TerminerVoyanceAction;
+import Action.ValiderVoyanceAction;
 import Action.VoyanceGetClientAction;
 import Action.VoyanceGetClientHistoryAction;
 import View.Serialization;
@@ -129,6 +132,24 @@ public class ActionServlet extends HttpServlet {
             }
             case "prediction" : {
                 Action a = new GenererPredictionAction(session);
+                a.execute(request);
+                Serialization.outputResponse(request, response);                
+                break;
+            }
+            case "commencerVoyance" : {
+                Action a = new CommencerVoyanceAction(session);
+                a.execute(request);
+                Serialization.outputResponse(request, response);                
+                break;
+            }
+            case "terminerVoyance" : {
+                Action a = new TerminerVoyanceAction(session);
+                a.execute(request);
+                Serialization.outputResponse(request, response);                
+                break;
+            }
+            case "validerVoyance" : {
+                Action a = new ValiderVoyanceAction(session);
                 a.execute(request);
                 Serialization.outputResponse(request, response);                
                 break;

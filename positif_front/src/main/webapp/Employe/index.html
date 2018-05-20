@@ -4,54 +4,42 @@
         <title>Exemple de page de login</title>
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css">
         <meta charset="UTF-8">
-        <link rel="stylesheet" type ="text/css" href="../styles.css" />
+        <link rel="stylesheet" type ="text/css" href="../my_styles.css" />
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.js"></script>
     </head>
-    <body style="background: linear-gradient(to right, #fafafa, #fefefe)">
+    <body style="background: linear-gradient(to right, #8D7BC2, #8D7BC2)">
         <br/>
-        <div class="ui raised very padded center aligned container segment">
-            <h3 class="ui header"><span style="color: tomato">PΩSIT'<i>IF</i></span>, le cabinet de voyance le plus professionnel de tout l'intranet INSA !</h3>
-            <h4>Pas encore inscrit(e) ? Qu'est ce que tu attends ?!</h4>
-            <a class="ui green button" href="register.html"> >>> Je m'inscris MAINTENANT ! <<< </a>
-           <p></p>
-            <p></p>
-        </div>
         
-         <div class="ui raised very padded text container segment">
-            <div class="six wide computer twelve wide tablet column">
-                <div class="ui horizontal divider"><h2>Je me connecte !</h2></div>
-                <form method="POST" action="./ActionServlet" class="ui form">
+         <div class="ui raised very padded text container segment" style="background: linear-gradient(to right, #009E0F, #009E0F);margin-top:15%">
+            <div class="six wide computer twelve wide tablet column" >
+                <div class="ui horizontal divider"><h2>Espace Employés</h2></div>
+                <form method="POST" action="../ActionServlet" class="ui form">
                     <div class="field">
-                        <label for="address">Adresse électronique</label>
+                        <label for="address">Téléphone</label>
                         <div class="ui icon input">
-                            <input type="text" id="champ-login" name="login" placeholder="Votre adresse électronique" />
-                            <i class="envelope icon"></i>
+                            <input type="text" id="champ-login" name="tel" style="background: linear-gradient(to right, #B6D7A8, #B6D7A8)" />
+                            <i class="phone icon"></i>
                         </div>
                     </div>
                     <div class="field">
-                        <label for="tel">Numéro client</label>
+                        <label for="tel">Numéro Employé</label>
                         <div class="ui icon input">
-                            <input type="password" id="champ-password" name="password" placeholder="Votre numéro client" />
+                            <input type="text" id="champ-password" name="numEmploye"  style="background: linear-gradient(to right, #B6D7A8, #B6D7A8)" />
                             <i class="tag icon"></i>
                         </div>
                     </div>
-                   
-                    <input type="hidden" name="todo" value="login" />
-                    <div style="display: flex; justify-content: flex-end">
-                        <input class="ui green button" id="submit" type="submit" name="submit" value="Connexion !">
-                    </div>
+                   <button class="fluid ui red button">Connexion</button>
+                    <input type="hidden" name="todo" value="loginEmploye" />
                 </form>    
             <div class="my_alert">
                     <div id="form_error" class="mini error ui message">
                         <i class="close icon" onclick=" $(this).closest('.error.message').transition('zoom');"></i>
                         <div class="header">
-                            Échec de l'inscription
+                            Échec de la connexion
+                            <br/>
+                            Téléphone ou numéro employé invalide
                         </div>
-                        <ul class="list">
-                            <li>Tous les champs doivent être remplis.</li>
-                            <li>Les données doivent être valides.</li>
-                        </ul>
                     </div>
                 </div>      
             </div>   
@@ -75,14 +63,14 @@
                             console.log('request success');
                             console.log(resp);
                             if(resp.success) {
-                                window.location = 'client.jsp';
+                                window.location = 'employee.jsp';
                             }
                             else {
                                 $('#form_error').transition('jiggle');
                             }
                         },
                         error: function(xhr, resp, text) {
-                            $('#server_error').transition('jiggle');
+                            $('#form_error').transition('jiggle');
                         }
                     });
                 });

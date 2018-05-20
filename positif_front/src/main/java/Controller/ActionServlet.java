@@ -6,12 +6,14 @@ import Action.DivinationAction;
 import Action.GetHistoryAction;
 import Action.GetMediumListAction;
 import Action.LoginAction;
+import Action.LoginEmployeAction;
 import Action.RegisterClientAction;
 import View.Serialization;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import fr.insalyon.dasi.positif.dao.JpaUtil;
 import fr.insalyon.dasi.positif.modele.Client;
+import fr.insalyon.dasi.positif.modele.Employe;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import javax.servlet.ServletException;
@@ -103,6 +105,14 @@ public class ActionServlet extends HttpServlet {
                 Action action = new DivinationAction(session);
                 action.execute(request);
                 Serialization.outputResponse(request, response);
+                break;
+            }
+            case "loginEmploye" : {
+                Action action = new LoginEmployeAction();
+                action.execute(request);
+                Serialization.outputResponse(request, response);
+                Employe e = (Employe)request.getAttribute("data");
+                session.setAttribute("user", e);
                 break;
             }
             default: {

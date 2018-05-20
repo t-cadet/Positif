@@ -25,35 +25,6 @@
 		</div>
 		<button id="divination" style="width:100%" class="ui yellow button">Demander une voyance</button>
 	</div>
-	<div class="my_alert">
-		<div id="data_error" class="mini error ui message">
-		    <i class="close icon" onclick=" $(this).closest('.error.message').transition('zoom');"></i>
-		    <div class="header">
-		        Les données n'ont pas pu être récupérées
-		    </div>
-		    <p>Veuillez réessayer ultérieurement.</p>
-		</div>
-		<div id="server_error" class="mini error ui message">
-		    <i class="close icon" onclick=" $(this).closest('.message').transition('zoom');"></i>
-		    <div class="header">
-		        Erreur interne du serveur
-		    </div>
-		    <p>Veuillez réessayer ultérieurement.</p>
-		</div>
-		<div id="divination_success"  class="mini success ui message">
-		    <i class="close icon" onclick=" $(this).closest('.message').transition('zoom');"></i>
-		    <div class="header">
-		        Votre demande de voyance a été acceptée !
-		    </div>
-		</div>
-		<div id="divination_error" class="mini error ui message">
-		    <i class="close icon" onclick=" $(this).closest('.error.message').transition('zoom');"></i>
-		    <div class="header">
-		        La demande a été refusée
-		    </div>
-		    <p>Aucun voyant n'est disponible <br />ou vous avez déjà une demande en cours.</p>
-		</div>
-	</div>
 	<script type="text/javascript">
 		$('document').ready(() => {
 		    console.log('document is ready');             
@@ -90,28 +61,28 @@
 	    	$(this).addClass('active');
 	    });
 	    $('#divination').on('click', () => {
-	    	        $.ajax({
-	    	            url: './ActionServlet',
-	    	            type: 'POST',
-	    	            dataType: 'json',
-	    	            data: {
-	    	            	'todo': 'divination',
-	    	            	'medium': $('#mediums_container > .active').attr('data-medium')
-	    	            	},
-	    	            success: (resp) => {
-	    	                console.log('request success');
-	    	                if(resp.success) {
-	    	                    $('#divination_success').transition('jiggle');    	                
-	    	                }
-	    	                else {
-	    	                    $('#divination_error').transition('jiggle');
-	    	                }
-	    	            },
-	    	            error: function(xhr, resp, text) {
-	    	                $('#server_error').transition('jiggle');
-	    	                console.log(xhr, resp, text);
-	    	            },
-	    	        });
+	        $.ajax({
+	            url: './ActionServlet',
+	            type: 'POST',
+	            dataType: 'json',
+	            data: {
+	            	'todo': 'divination',
+	            	'medium': $('#mediums_container > .active').attr('data-medium')
+	            	},
+	            success: (resp) => {
+	                console.log('request success');
+	                if(resp.success) {
+	                    $('#divination_success').transition('jiggle');    	                
+	                }
+	                else {
+	                    $('#divination_error').transition('jiggle');
+	                }
+	            },
+	            error: function(xhr, resp, text) {
+	                $('#server_error').transition('jiggle');
+	                console.log(xhr, resp, text);
+	            },
+	        });
 	    });
 	</script>
 </div>	

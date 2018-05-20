@@ -43,38 +43,65 @@
                     <%@ include file="history.html" %>
                 </div>
             </div>  
-                <div class="my_alert">
-                    <div id="deco_error" class="mini error ui message">
-                        <i class="close icon" onclick=" $(this).closest('.error.message').transition('zoom');"></i>
-                        <div class="header">
-                            Échec de la déconnexion
-                        </div>
+            <div class="my_alert">
+                <div id="deco_error" class="mini error ui message">
+                    <i class="close icon" onclick=" $(this).closest('.error.message').transition('zoom');"></i>
+                    <div class="header">
+                        Échec de la déconnexion
                     </div>
-                </div>      
+                </div>
+                <div id="data_error" class="mini error ui message">
+                    <i class="close icon" onclick=" $(this).closest('.error.message').transition('zoom');"></i>
+                    <div class="header">
+                        Les données n'ont pas pu être récupérées
+                    </div>
+                    <p>Veuillez réessayer ultérieurement.</p>
+                </div>
+                <div id="server_error" class="mini error ui message">
+                    <i class="close icon" onclick=" $(this).closest('.message').transition('zoom');"></i>
+                    <div class="header">
+                        Erreur interne du serveur
+                    </div>
+                    <p>Veuillez réessayer ultérieurement.</p>
+                </div>
+                <div id="divination_success"  class="mini success ui message">
+                    <i class="close icon" onclick=" $(this).closest('.message').transition('zoom');"></i>
+                    <div class="header">
+                        Votre demande de voyance a été acceptée !
+                    </div>
+                </div>
+                <div id="divination_error" class="mini error ui message">
+                    <i class="close icon" onclick=" $(this).closest('.error.message').transition('zoom');"></i>
+                    <div class="header">
+                        La demande a été refusée
+                    </div>
+                    <p>Aucun voyant n'est disponible <br />ou vous avez déjà une demande en cours.</p>
+                </div>
             </div>  
-            <script type="text/javascript">
-                $('.menu .item')
-                  .tab()
-                ;
-                $('#deconnexion').popup();
-                
-                $('document').ready(() => {
+        </div> 
+        <script type="text/javascript">
+            $('.menu .item')
+              .tab()
+            ;
+            $('#deconnexion').popup();
+            
+            $('document').ready(() => {
 
-                console.log('document is ready');
-                $('#deconnexion').on('click', function() {
-                    $.ajax({
-                        url: 'ActionServlet',
-                        type: 'GET',
-                        data: 'todo=deconnexion',
-                        success: () => {
-                            window.location = 'index.html';
-                        },
-                        error: function(xhr, resp, text) {
-                            $('#deco_error').transition('jiggle');
-                        }
-                    });
+            console.log('document is ready');
+            $('#deconnexion').on('click', function() {
+                $.ajax({
+                    url: 'ActionServlet',
+                    type: 'GET',
+                    data: 'todo=deconnexion',
+                    success: () => {
+                        window.location = 'index.html';
+                    },
+                    error: function(xhr, resp, text) {
+                        $('#deco_error').transition('jiggle');
+                    }
                 });
             });
-            </script>  
+        });
+        </script>  
     </body>
 </html>

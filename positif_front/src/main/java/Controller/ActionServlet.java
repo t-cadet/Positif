@@ -6,6 +6,7 @@ import Action.DivinationAction;
 import Action.GetHistoryAction;
 import Action.GetMediumListAction;
 import Action.LoginAction;
+import Action.ObtenirVoyanceDemandeeAction;
 import Action.RegisterClientAction;
 import View.Serialization;
 import com.google.gson.Gson;
@@ -103,6 +104,12 @@ public class ActionServlet extends HttpServlet {
                 Action action = new DivinationAction(session);
                 action.execute(request);
                 Serialization.outputResponse(request, response);
+                break;
+            }
+            case "obtenirVoyanceDemandee" : {
+                Action a = new ObtenirVoyanceDemandeeAction(session);
+                a.execute(request);
+                Serialization.outputResponse(request, response);                
                 break;
             }
             default: {

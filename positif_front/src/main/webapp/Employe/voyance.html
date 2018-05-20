@@ -1,3 +1,102 @@
-Voyance 
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Voyance</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css">
+        <link rel="stylesheet" type ="text/css" href="../my_styles.css" />
+        <script
+          src="https://code.jquery.com/jquery-3.3.1.min.js"
+          integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+          crossorigin="anonymous">
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.js"></script>
+    </head>
+    <body style="background: linear-gradient(to right, #fafafa, #fefefe)">
+		<div class="ui padded stackable two column grid">
+			<div class="six wide column">
+				<h2>Profil Client</h2>
+				<div class="ui equal width two column grid">
+					<div class="column">Nom</div>
+					<div id="lastName" class="column right aligned"></div>
 
+					<div class="column">Prénom</div>
+					<div id="firstName" class="column  right aligned"></div>
 
+					<div class="column">Signe du Zodiaque</div>
+					<div id="zodiac" class="column  right aligned"></div>
+
+					<div class="column">Signe Astrologique Chinois</div>
+					<div id="astro" class="column  right aligned"></div>
+
+					<div class="column">Couleur Porte-Bonheur</div>
+					<div id="color" class="column  right aligned"></div>
+
+					<div class="column">Animal Totem</div>
+					<div id="animal" class="column  right aligned"></div>
+				</div>  
+			</div>
+			<div class="ten wide column">
+				<h2>Historique Client</h2>
+				<div class="ui grid">
+					<div class="eight wide column">
+						bb
+					</div>
+					<div class="eight wide column">
+						<textarea id="comment" placeholder="Commentaire sur la voyance sélectionnée..." style="text-align: justify;max-height: 95%; height:95%; width:90%;"></textarea>
+					</div>	
+				</div>
+			</div>
+			<div class="column">
+				<h2>Générer une prédiction</h2>
+				<div class="ui stackable grid">
+					<div class="five wide column">
+						<form method="POST" action="../ActionServlet" class="ui form">
+							<input class="ui button" id="submit" type="submit" name="submit" value="Générer la prédiction">
+					        <div class="field">
+					            <label for="love">Note amour</label>
+					            <input type="number" id="love" name="love" min="1" max="4">
+					        </div>
+					        <div class="field">
+					            <label for="work">Note travail</label>
+					            <input type="number" id="work" name="work" min="1" max="4">
+					        </div>
+					        <div class="field">
+					            <label for="health">Note santé</label>
+					            <input type="number" id="health" name="health" min="1" max="4">
+					        </div>		     
+						    <input type="hidden" name="todo" value="prediction" />
+						</form> 
+					</div>
+					<div class="eleven wide column">
+						<div class="ui padded segment" style="text-align: justify; overflow-y: auto; max-height: 95%; height:95%">
+							<p id="prediction_container">
+									
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="column">
+				<h2>Gérer la voyance (Médium demandé : <span id="medium_name"></span>)</h2>
+				<div class="ui stackable grid">
+					<div class="five wide column">
+						<div class="ui basic segment ">
+							<button id="start_voyance" style="width:100%" class="ui button">Commencer la voyance</button>
+						</div>
+						<div class="ui basic segment">
+							<button id="end_voyance" style="width:100%" class="ui button">Terminer la voyance</button>
+						</div>
+						<div class="ui basic segment">
+							<button id="validation" style="width:100%" class="ui button">Valider</button>
+						</div>
+					</div>
+					<div class="eleven wide column">
+						<textarea id="comment" placeholder="Commentaire sur la voyance en cours..." style="text-align: justify;max-height: 95%; height:95%; width:90%;"></textarea>
+					</div>	
+				</div>		
+			</div>
+		</div>	
+	</body>
+</html>				

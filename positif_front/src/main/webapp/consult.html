@@ -23,7 +23,7 @@
 					
 			</p>
 		</div>
-			<button style="width:100%" class="ui yellow button">Demander une voyance</button>
+		<button id="divination" style="width:100%" class="ui yellow button">Demander une voyance</button>
 	</div>
 	<div class="my_alert">
 		<div id="data_error" class="mini error ui message">
@@ -40,6 +40,19 @@
 		    </div>
 		    <p>Veuillez réessayer ultérieurement.</p>
 		</div>
+		<div id="divination_success"  class="mini success ui message">
+		    <i class="close icon" onclick=" $(this).closest('.message').transition('zoom');"></i>
+		    <div class="header">
+		        Votre demande de voyance a été acceptée !
+		    </div>
+		</div>
+		<div id="divination_error" class="mini error ui message">
+		    <i class="close icon" onclick=" $(this).closest('.error.message').transition('zoom');"></i>
+		    <div class="header">
+		        La demande a été refusée
+		    </div>
+		    <p>Aucun voyant n'est disponible <br />ou vous avez déjà une demande en cours.</p>
+		</div>
 	</div>
 	<script type="text/javascript">
 		$('document').ready(() => {
@@ -51,13 +64,13 @@
 	            data: 'todo=getMediumList',
 	            success: (resp) => {
 	                console.log('request success');
+	                console.log(resp);
 	                if(resp.success) {
 	                	resp.data.forEach((m) => {
 	                		$('#mediums_container').append(`
-	                		<tr class="print_bio">
+	                		<tr class="print_bio" data-medium='`+JSON.stringify(m)+`'>
 							    <td>`+m.nom+`</td>
 							    <td>`+m.talent+`</td>
-							    <span style="display: none">`+m.bio+`</span>
 			    			</tr>`);
 	                	});
 	                }
@@ -68,16 +81,37 @@
 	            error: function(xhr, resp, text) {
 	                $('#server_error').transition('jiggle');
 	                console.log(xhr, resp, text);
-	                /*document.open();
-	                document.write(xhr.responseText);
-	                document.close();*/
 	            },
 	        });
 	    });
-	    $('.print_bio').on('click', () => {
-	    	console.log("Sélection d'un médium");
-	    	console.log($(this));
-	    	$('#bio_container').text($(this).children('span').text());
+	    $('#mediums_container').on('click', '.print_bio', function() {
+	    	$('#bio_container').text($(this).data('medium').bio);
+	    	$('#mediums_container > .print_bio').removeClass('active');
+	    	$(this).addClass('active');
+	    });
+	    $('#divination').on('click', () => {
+	    	        $.ajax({
+	    	            url: './ActionServlet',
+	    	            type: 'POST',
+	    	            dataType: 'json',
+	    	            data: {
+	    	            	'todo': 'divination',
+	    	            	'medium': $('#mediums_container > .active').attr('data-medium')
+	    	            	},
+	    	            success: (resp) => {
+	    	                console.log('request success');
+	    	                if(resp.success) {
+	    	                    $('#divination_success').transition('jiggle');    	                
+	    	                }
+	    	                else {
+	    	                    $('#divination_error').transition('jiggle');
+	    	                }
+	    	            },
+	    	            error: function(xhr, resp, text) {
+	    	                $('#server_error').transition('jiggle');
+	    	                console.log(xhr, resp, text);
+	    	            },
+	    	        });
 	    });
 	</script>
 </div>	

@@ -2,6 +2,7 @@ package Controller;
 
 
 import Action.Action;
+import Action.DivinationAction;
 import Action.GetMediumListAction;
 import Action.LoginAction;
 import Action.RegisterClientAction;
@@ -95,6 +96,13 @@ public class ActionServlet extends HttpServlet {
                 Action action = new GetMediumListAction();
                 action.execute(request);
                 Serialization.outputResponse(request, response);
+                break;
+            }
+            case "divination" : {
+                Action action = new DivinationAction(session);
+                action.execute(request);
+                Serialization.outputResponse(request, response);
+                break;
             }
             default: {
                 System.err.println("La requête " + request.toString() + " n'est pas une requête valide.");

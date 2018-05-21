@@ -24,7 +24,7 @@
                         type: 'GET',
                         data: 'todo=session',
                         success: (resp) => {                           
-                            $('#titre').replaceWith('<h1> Historique de '+resp.data.prenom+" "+resp.data.nom+' : </h1>');
+                            $('#titre').replaceWith('<h1> Tableau de bord de '+resp.data.prenom+" "+resp.data.nom+' : </h1>');
                         },
                         error: function(xhr, resp, text) {
                             $('#server_error').transition('jiggle');

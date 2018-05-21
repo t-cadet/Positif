@@ -9,8 +9,11 @@ import Action.GetHistoryAction;
 import Action.GetMediumListAction;
 import Action.LoginAction;
 import Action.LoginEmployeAction;
+import Action.NombreVoyancesParEmployeAction;
+import Action.NombreVoyancesParMediumAction;
 import Action.ObtenirVoyanceDemandeeAction;
 import Action.RegisterClientAction;
+import Action.RepartitionVoyancesParEmployeAction;
 import Action.TerminerVoyanceAction;
 import Action.ValiderVoyanceAction;
 import Action.VoyanceGetClientAction;
@@ -170,6 +173,26 @@ public class ActionServlet extends HttpServlet {
                 Serialization.outputResponse(request, response);                
                 break;
             }
+            case "nombreVoyancesParMedium" : {
+                Action a = new NombreVoyancesParMediumAction();
+                a.execute(request);
+                Serialization.outputResponse(request, response);                
+                break; 
+            }
+            case "nombreVoyancesParEmploye" : {
+                Action a = new NombreVoyancesParEmployeAction();
+                a.execute(request);
+                Serialization.outputResponse(request, response);                
+                break; 
+            }
+            case "repartitionVoyancesParEmploye" : {
+                Action a = new RepartitionVoyancesParEmployeAction();
+                a.execute(request);
+                System.out.println("dddddddddd");
+                System.out.println(request.getAttribute("data").toString());
+                Serialization.outputResponse(request, response);   
+                break; 
+            }
             default: {
                 System.err.println("La requête " + request.toString() + " (todo = " + todo + " n'est pas une requête valide.");
                 break;
@@ -228,7 +251,5 @@ public class ActionServlet extends HttpServlet {
     protected long getLastModified(HttpServletRequest req) {
         return super.getLastModified(req); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    
     
 }

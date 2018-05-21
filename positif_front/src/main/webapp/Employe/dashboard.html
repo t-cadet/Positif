@@ -1,0 +1,162 @@
+<%@ page contentType="text/html;charset=utf-8" pageEncoding="UTF-8" %>
+
+
+<h1 id="titre">Mon historique</h1>
+
+   <div class="ui three column very relaxed grid">
+  <div class="column">
+    <div id="container-1" class="highcharts-container"></div>
+  </div>
+
+  <div class="column">
+    <div id="container-2" class="highcharts-container"></div>
+  </div>
+
+  <div class="column">
+    <div id="container-3" class="highcharts-container"></div>
+  </div>
+    
+        <script src="https://code.highcharts.com/highcharts.js"></script>
+	<script type="text/javascript">
+		    //Retrive user informations
+                    $.ajax({
+                        url: '../ActionServlet',
+                        type: 'GET',
+                        data: 'todo=session',
+                        success: (resp) => {                           
+                            $('#titre').replaceWith('<h1> Historique de '+resp.data.prenom+" "+resp.data.nom+' : </h1>');
+                        },
+                        error: function(xhr, resp, text) {
+                            $('#server_error').transition('jiggle');
+                        }
+                    });
+                    
+                    
+                    function buildBarChart(container, graphData,titre) {
+
+                        Highcharts.chart(container, {
+
+                            chart: {
+                                type: 'column'
+                            },
+                            title: {
+                                text: titre
+                            },
+                            xAxis: {
+                                categories: graphData.labels
+                            },
+                            yAxis: {
+                                title: {
+                                    text: 'Nombre de voyants'
+                                }
+                            },
+                            legend: {
+                                enabled: false
+                            },
+                            credits: {
+                                enabled: false
+                            },
+                            series: [{name: 'Données', data: graphData.data}]
+                        });
+                    }
+                    
+                    function buildPieChart(container, graphData) {
+
+                        Highcharts.chart(container, {
+
+                            chart: {
+                                type: 'pie'
+                            },
+                            title: {
+                                text: 'Répartition des voyances par employés'
+                            },
+                            credits: {
+                                enabled: false
+                            },
+                            series: [{name: graphData.label, data: graphData.data}]
+                        });
+                    }
+                    
+                    //Retrive voyances for each medium (1st diag)
+                    $.ajax({
+                        url: '../ActionServlet',
+                        type: 'GET',
+                        data: 'todo=nombreVoyancesParMedium',
+                        success: (resp) => {    
+
+                         var labels = [];
+                         var data = [];
+                            
+                            for (var key in resp.data) {
+                                labels.push(key);
+                                data.push(resp.data[key]);
+                            }
+
+                            var lineChartData = {
+                                labels: labels,
+                                data: data
+                            };
+                            buildBarChart('container-1', lineChartData,"Total des voyances par médium");
+                        },
+                        error: function(xhr, resp, text) {
+                            $('#server_error').transition('jiggle');
+                        }
+                    });
+                    
+                    //Retrive voyances for each medium (1st diag)
+                    $.ajax({
+                        url: '../ActionServlet',
+                        type: 'GET',
+                        data: 'todo=nombreVoyancesParEmploye',
+                        success: (resp) => {    
+                            
+                         var labels = [];
+                         var data = [];
+                            
+                            for (var key in resp.data) {
+                                labels.push(key);
+                                data.push(resp.data[key]);
+                            }
+
+                            var lineChartData = {
+                                labels: labels,
+                                data: data
+                            };
+                            buildBarChart('container-2', lineChartData,"Total des voyances par employé");
+                        },
+                        error: function(xhr, resp, text) {
+                            $('#server_error').transition('jiggle');
+                        }
+                    });
+                    
+                    
+                    //Retrive repartition voyance
+                    $.ajax({
+                        url: '../ActionServlet',
+                        type: 'GET',
+                        data: 'todo=repartitionVoyancesParEmploye',
+                        success: (resp) => {    
+
+                        var labels = "";
+                        var data = [];
+                            
+                        for (var key in resp.data) {
+                                var dataIn = []
+                                dataIn['name'] = key;
+                                dataIn['y'] = resp.data[key];
+                                data.push(dataIn);
+                            }
+
+                            var lineChartData = {
+                                labels: labels,
+                                data: data
+                            };
+                            
+                            buildPieChart('container-3', lineChartData);
+                        },
+                        error: function(xhr, resp, text) {
+                            $('#server_error').transition('jiggle');
+                        }
+                    });
+	</script>
+</div>	

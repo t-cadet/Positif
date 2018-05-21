@@ -5,28 +5,24 @@
  */
 package Action;
 
-import fr.insalyon.dasi.positif.modele.Client;
-import fr.insalyon.dasi.positif.modele.Employe;
 import fr.insalyon.dasi.positif.service.Services;
+import java.util.TreeMap;
 import javax.servlet.http.HttpServletRequest;
 
 /**
  *
  * @author Alexandre
  */
-public class LoginEmployeAction extends Action {
-    
+public class NombreVoyancesParEmployeAction extends Action {
+        
     @Override
     public void execute(HttpServletRequest request) {
         
-        String tel = request.getParameter("tel");
-        String numEmploye = request.getParameter("numEmploye");
+        TreeMap<Integer, Integer> nbVM = Services.nombreVoyancesParEmploye();
 
-        Employe e = Services.authentifierEmploye(tel, Integer.parseInt(numEmploye));
-
-        if(e != null) {
+        if(nbVM != null) {
             request.setAttribute("success", true);
-            request.setAttribute("data", e);
+            request.setAttribute("data", nbVM);
         }else {
             request.setAttribute("success", false);
         }

@@ -140,9 +140,8 @@
                         var data = [];
                             
                         for (var key in resp.data) {
-                                var dataIn = []
-                                dataIn['name'] = key;
-                                dataIn['y'] = resp.data[key];
+                                var dataIn = [];
+                                var dataIn = {name:key, y:resp.data[key]};
                                 data.push(dataIn);
                             }
 
@@ -150,7 +149,6 @@
                                 labels: labels,
                                 data: data
                             };
-                            
                             buildPieChart('container-3', lineChartData);
                         },
                         error: function(xhr, resp, text) {

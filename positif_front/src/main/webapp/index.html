@@ -5,41 +5,42 @@
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css">
         <meta charset="UTF-8">
         <link rel="stylesheet" type ="text/css" href="my_styles.css" />
+        <link rel="stylesheet" type ="text/css" href="color_chart.css" />
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.js"></script>
     </head>
-    <body style="background: linear-gradient(to right, #fafafa, #fefefe)">
+    <body>
         <br/>
-        <div class="ui raised very padded center aligned container segment">
-            <h3 class="ui header"><span style="color: tomato">PΩSIT'<i>IF</i></span>, le cabinet de voyance le plus professionnel de tout l'intranet INSA !</h3>
+        <div class="ui raised very padded center aligned container segment mon_rose">
+            <h3 class="ui header">PΩSIT'<i>IF</i>, le cabinet de voyance le plus professionnel de tout l'intranet INSA !</h3>
             <h4>Pas encore inscrit(e) ? Qu'est ce que tu attends ?!</h4>
-            <a class="ui green button" href="register.html"> >>> Je m'inscris MAINTENANT ! <<< </a>
+            <a class="ui mon_rouge button" href="register.html"> >>> Je m'inscris MAINTENANT ! <<< </a>
            <p></p>
             <p></p>
         </div>
         
-         <div class="ui raised very padded text container segment">
+         <div class="ui raised very padded text container segment mon_vert">
             <div class="six wide computer twelve wide tablet column">
                 <div class="ui horizontal divider"><h2>Je me connecte !</h2></div>
                 <form method="POST" action="./ActionServlet" class="ui form">
                     <div class="field">
                         <label for="address">Adresse électronique</label>
                         <div class="ui icon input">
-                            <input type="text" id="champ-login" name="login" placeholder="Votre adresse électronique" />
+                            <input type="text" id="champ-login" name="login" placeholder="Votre adresse électronique" class="mon_vert_clair" />
                             <i class="envelope icon"></i>
                         </div>
                     </div>
                     <div class="field">
                         <label for="tel">Numéro client</label>
                         <div class="ui icon input">
-                            <input type="password" id="champ-password" name="password" placeholder="Votre numéro client" />
+                            <input type="password" id="champ-password" name="password" placeholder="Votre numéro client" class="mon_vert_clair"/>
                             <i class="tag icon"></i>
                         </div>
                     </div>
                    
                     <input type="hidden" name="todo" value="login" />
                     <div style="display: flex; justify-content: flex-end">
-                        <input class="ui green button" id="submit" type="submit" name="submit" value="Connexion !">
+                        <input class="ui mon_rouge button" id="submit" type="submit" name="submit" value="Connexion !">
                     </div>
                 </form>    
             <div class="my_alert">
@@ -52,6 +53,13 @@
                             <li>Tous les champs doivent être remplis.</li>
                             <li>Les données doivent être valides.</li>
                         </ul>
+                    </div>
+                    <div id="connexion_error" class="mini error ui message">
+                        <i class="close icon" onclick=" $(this).closest('.error.message').transition('zoom');"></i>
+                        <div class="header">
+                            Accès refusé
+                        </div>
+                        <p>Vous devez vous connecter <br />pour accéder à cette page</p>
                     </div>
                 </div>      
             </div>   
@@ -86,6 +94,11 @@
                         }
                     });
                 });
+                
+                let searchParams = new URLSearchParams(window.location.search);
+                if(searchParams.has('connexion_error')) {
+                    $('#connexion_error').transition('jiggle');
+                }
             });
         </script>
     </body>

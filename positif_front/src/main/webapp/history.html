@@ -26,13 +26,14 @@
             $('document').ready(() => {      
                     //Retrive user informations
                     $.ajax({
-                        url: '../ActionServlet',
+                        url: './ActionServlet',
                         type: 'GET',
                         data: 'todo=session',
                         success: (resp) => {                           
                             $('#titre').replaceWith('<h1> Historique de '+resp.data.prenom+" "+resp.data.nom+' : </h1>');
                         },
                         error: function(xhr, resp, text) {
+                            console.log('history session server_error');
                             $('#server_error').transition('jiggle');
                         }
                     });
@@ -43,24 +44,25 @@
                         data: 'todo=historiqueClient',
                         success: (resp) => {
                             if(resp.success) {
-                                
                                 console.log(resp.data);
-                                
-	                	resp.data.forEach((m) => {
-                                        var debut = new Date(m.debut);
-                                        var fin = new Date(m.fin);
-                                        
-                                        var diff = Math.abs(fin - debut);
-                                        var minutes = Math.floor((diff/1000)/60);
-                                    
-	                		$('#history_container').append(`
-	                		<tr class="print_bio">
-							    <td>`+debut.getDate()+'/'+(debut.getMonth()+1)+'/'+debut.getFullYear()+`</td>
-							    <td>`+m.medium.nom+`</td>
-                                                            <td>`+minutes+`</td>
-						
-			    			</tr>`);
-	                	});
+        	                	resp.data.forEach((voyance) => {
+                                    let debut = new Date(voyance.debut);
+
+                                    let diff = new Date(Date.parse(voyance.fin)-Date.parse(voyance.debut))/1000;
+                                    let hour = Math.floor(diff/3600);
+                                    if(hour < 10) {hour = "0" + hour}
+                                    let min = Math.floor((diff%=3600)/60);
+                                    if(min < 10) {min = "0" + min}
+                                    let sec = Math.floor(diff%60);
+                                    if(sec < 10) {sec = "0" + sec}
+
+                                    $('#history_container').append(`
+                                    <tr class="print_comment" data-comment="`+voyance.commentaire+`">
+                                        <td>`+debut.toLocaleDateString()+`</td>
+                                        <td>`+(voyance.medium?voyance.medium.nom:"")+`</td>
+                                        <td>`+hour+`:`+min+`:`+sec+`</td>
+                                    </tr>`);
+                                });
 	                }
 	                else {
 	                    $('#data_error').transition('jiggle');

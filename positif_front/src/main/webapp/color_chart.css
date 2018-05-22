@@ -1,0 +1,29 @@
+/* Couleurs */
+/* background: rgb(142, 124, 195)!important; /*violet*/
+/* background: rgb(0, 158, 15)!important; /*vert*/
+/* background: rgb(182, 215, 168)!important; /*vert clair*/
+/* background: rgb(255, 0, 255)!important; /*rose*/
+/* background: rgb(207, 42, 39)!important; /*rouge*/
+
+body {
+	background: rgb(142, 124, 195)!important; /*violet*/
+}
+
+.tab {
+	background-color: inherit!important;
+	border: none!important;
+}
+
+.mon_vert {
+	background: rgb(0, 158, 15)!important; /*vert*/
+}
+.mon_vert_clair {
+	background: rgb(182, 215, 168)!important; /*vert clair*/
+}
+.mon_rose {
+	background: rgb(255, 0, 255)!important; /*rose*/
+}
+.mon_rouge {
+	background: rgb(207, 42, 39)!important; /*rouge*/
+	color: white!important;
+}

@@ -36,17 +36,34 @@
                         Highcharts.chart(container, {
 
                             chart: {
-                                type: 'column'
+                                type: 'column',
+                                backgroundColor: null
                             },
                             title: {
-                                text: titre
+                                text: titre,
+                                style: {
+                                    color: "#fff"
+                                }
                             },
                             xAxis: {
-                                categories: graphData.labels
+                                categories: graphData.labels,
+                                labels: {
+                                    style: {
+                                        color: "#fff"
+                                    }
+                                }
                             },
                             yAxis: {
                                 title: {
-                                    text: 'Nombre de voyants'
+                                    text: 'Nombre de voyants',
+                                    style: {
+                                        color: "#fff"
+                                    }
+                                },
+                                labels: {
+                                    style: {
+                                        color: "#fff"
+                                    }
                                 }
                             },
                             legend: {
@@ -64,10 +81,25 @@
                         Highcharts.chart(container, {
 
                             chart: {
-                                type: 'pie'
+                                type: 'pie',
+                                backgroundColor: null,
                             },
+                            plotOptions: {
+                                    series: {
+                                        dataLabels: {
+                                            enabled: true,
+                                            color: 'white',
+                                            style: {
+                                                textOutline: null
+                                            }    
+                                        }
+                                    }
+                                },
                             title: {
-                                text: 'Répartition des voyances par employés'
+                                text: 'Répartition des voyances par employés',
+                                style: {
+                                    color: "#fff"
+                                }
                             },
                             credits: {
                                 enabled: false

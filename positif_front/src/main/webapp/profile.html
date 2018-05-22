@@ -32,6 +32,7 @@
             	$('#animal').text(resp.data.animalTotem);
             },
             error: function(xhr, resp, text) {
+                console.log('profile server error');
                 $('#server_error').transition('jiggle');
                 console.log(xhr, resp, text);
             },

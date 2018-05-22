@@ -5,31 +5,32 @@
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css">
         <meta charset="UTF-8">
         <link rel="stylesheet" type ="text/css" href="../my_styles.css" />
+        <link rel="stylesheet" type ="text/css" href="../color_chart.css" />
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.js"></script>
     </head>
     <body style="background: linear-gradient(to right, #8D7BC2, #8D7BC2)">
         <br/>
         
-         <div class="ui raised very padded text container segment" style="background: linear-gradient(to right, #009E0F, #009E0F);margin-top:15%">
+         <div class="ui raised very padded text container segment mon_vert" style="margin-top:15%">
             <div class="six wide computer twelve wide tablet column" >
                 <div class="ui horizontal divider"><h2>Espace Employés</h2></div>
                 <form method="POST" action="../ActionServlet" class="ui form">
                     <div class="field">
                         <label for="address">Téléphone</label>
                         <div class="ui icon input">
-                            <input type="text" id="champ-login" name="tel" style="background: linear-gradient(to right, #B6D7A8, #B6D7A8)" />
+                            <input type="text" id="champ-login" name="tel" class="mon_vert_clair" />
                             <i class="phone icon"></i>
                         </div>
                     </div>
                     <div class="field">
                         <label for="tel">Numéro Employé</label>
                         <div class="ui icon input">
-                            <input type="text" id="champ-password" name="numEmploye"  style="background: linear-gradient(to right, #B6D7A8, #B6D7A8)" />
+                            <input type="text" id="champ-password" name="numEmploye"  class="mon_vert_clair" />
                             <i class="tag icon"></i>
                         </div>
                     </div>
-                   <button class="fluid ui red button">Connexion</button>
+                   <button class="fluid ui mon_rouge button">Connexion</button>
                     <input type="hidden" name="todo" value="loginEmploye" />
                 </form>    
             <div class="my_alert">
@@ -40,6 +41,13 @@
                             <br/>
                             Téléphone ou numéro employé invalide
                         </div>
+                    </div>
+                    <div id="connexion_error" class="mini error ui message">
+                        <i class="close icon" onclick=" $(this).closest('.error.message').transition('zoom');"></i>
+                        <div class="header">
+                            Accès refusé
+                        </div>
+                        <p>Vous devez vous connecter <br />pour accéder à cette page</p>
                     </div>
                 </div>      
             </div>   
@@ -74,6 +82,11 @@
                         }
                     });
                 });
+
+                let searchParams = new URLSearchParams(window.location.search);
+                if(searchParams.has('connexion_error')) {
+                    $('#connexion_error').transition('jiggle');
+                }
             });
         </script>
     </body>

@@ -23,7 +23,7 @@
 					
 			</p>
 		</div>
-		<button id="divination" style="width:100%" class="ui yellow button">Demander une voyance</button>
+		<button id="divination" style="width:100%" class="ui mon_rouge button">Demander une voyance</button>
 	</div>
 	<script type="text/javascript">
 		$('document').ready(() => {
@@ -39,7 +39,7 @@
 	                if(resp.success) {
 	                	resp.data.forEach((m) => {
 	                		$('#mediums_container').append(`
-	                		<tr class="print_bio" data-medium='`+JSON.stringify(m)+`'>
+	                		<tr class="print_bio" data-medium='`+JSON.stringify(m).replace("'","’")+`'>
 							    <td>`+m.nom+`</td>
 							    <td>`+m.talent+`</td>
 			    			</tr>`);

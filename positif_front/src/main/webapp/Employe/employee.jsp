@@ -33,6 +33,7 @@
                   </button>
                 </div>
                 <div class="ui bottom attached active tab segment" data-tab="first">
+                    <%@ include file="dashboard.html" %>
                 </div>
             </div>  
                 <div class="my_alert">

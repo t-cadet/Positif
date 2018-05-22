@@ -8,8 +8,12 @@ import Action.GenererPredictionAction;
 import Action.GetHistoryAction;
 import Action.GetMediumListAction;
 import Action.LoginAction;
+import Action.LoginEmployeAction;
+import Action.NombreVoyancesParEmployeAction;
+import Action.NombreVoyancesParMediumAction;
 import Action.ObtenirVoyanceDemandeeAction;
 import Action.RegisterClientAction;
+import Action.RepartitionVoyancesParEmployeAction;
 import Action.TerminerVoyanceAction;
 import Action.ValiderVoyanceAction;
 import Action.VoyanceGetClientAction;
@@ -20,6 +24,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import fr.insalyon.dasi.positif.dao.JpaUtil;
 import fr.insalyon.dasi.positif.modele.Client;
+import fr.insalyon.dasi.positif.modele.Employe;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import javax.servlet.ServletException;
@@ -113,6 +118,13 @@ public class ActionServlet extends HttpServlet {
                 Serialization.outputResponse(request, response);
                 break;
             }
+            case "loginEmploye" : {
+                Action action = new LoginEmployeAction();
+                action.execute(request);
+                Serialization.outputResponse(request, response);
+                Employe e = (Employe)request.getAttribute("data");
+                session.setAttribute("user", e);
+            }
             case "obtenirVoyanceDemandee" : {
                 Action a = new ObtenirVoyanceDemandeeAction(session);
                 a.execute(request);
@@ -160,6 +172,26 @@ public class ActionServlet extends HttpServlet {
                 a.execute(request);
                 Serialization.outputResponse(request, response);                
                 break;
+            }
+            case "nombreVoyancesParMedium" : {
+                Action a = new NombreVoyancesParMediumAction();
+                a.execute(request);
+                Serialization.outputResponse(request, response);                
+                break; 
+            }
+            case "nombreVoyancesParEmploye" : {
+                Action a = new NombreVoyancesParEmployeAction();
+                a.execute(request);
+                Serialization.outputResponse(request, response);                
+                break; 
+            }
+            case "repartitionVoyancesParEmploye" : {
+                Action a = new RepartitionVoyancesParEmployeAction();
+                a.execute(request);
+                System.out.println("dddddddddd");
+                System.out.println(request.getAttribute("data").toString());
+                Serialization.outputResponse(request, response);   
+                break; 
             }
             default: {
                 System.err.println("La requête " + request.toString() + " (todo = " + todo + " n'est pas une requête valide.");
@@ -219,7 +251,5 @@ public class ActionServlet extends HttpServlet {
     protected long getLastModified(HttpServletRequest req) {
         return super.getLastModified(req); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    
     
 }

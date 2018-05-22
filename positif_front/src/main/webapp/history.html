@@ -13,7 +13,7 @@
                                     <th>Durée</th>
 			  	</tr>
 			</thead>
-			  <tbody id="mediums_container">
+			  <tbody id="history_container">
 			    
 			  </tbody>
 		</table>
@@ -26,7 +26,7 @@
             $('document').ready(() => {      
                     //Retrive user informations
                     $.ajax({
-                        url: 'ActionServlet',
+                        url: '../ActionServlet',
                         type: 'GET',
                         data: 'todo=session',
                         success: (resp) => {                           
@@ -43,12 +43,22 @@
                         data: 'todo=historiqueClient',
                         success: (resp) => {
                             if(resp.success) {
+                                
+                                console.log(resp.data);
+                                
 	                	resp.data.forEach((m) => {
-	                		$('#mediums_container').append(`
+                                        var debut = new Date(m.debut);
+                                        var fin = new Date(m.fin);
+                                        
+                                        var diff = Math.abs(fin - debut);
+                                        var minutes = Math.floor((diff/1000)/60);
+                                    
+	                		$('#history_container').append(`
 	                		<tr class="print_bio">
-							    <td>`+m.nom+`</td>
-							    <td>`+m.talent+`</td>
-							    <span style="display: none">`+m.bio+`</span>
+							    <td>`+debut.getDate()+'/'+(debut.getMonth()+1)+'/'+debut.getFullYear()+`</td>
+							    <td>`+m.medium.nom+`</td>
+                                                            <td>`+minutes+`</td>
+						
 			    			</tr>`);
 	                	});
 	                }

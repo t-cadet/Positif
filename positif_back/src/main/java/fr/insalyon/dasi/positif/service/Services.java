@@ -260,6 +260,11 @@ public class Services {
                 nombreVoyances += entry.getValue();
             }
             double ratio = 100.0 / nombreVoyances;
+            
+            if(nombreVoyances == 0){
+                
+                ratio = 0;
+            }
 
             // Calcul du pourcentage pour chaque employe
             TreeMap<Integer, Double> camembert = new TreeMap<Integer, Double>();
@@ -473,7 +478,7 @@ public class Services {
     }
     public static void main(String [] args) {
         JpaUtil.init();
-        importerDonnees("./src/main/resources/clients.csv");
+       // importerDonnees("./src/main/resources/clients.csv");
         JpaUtil.destroy();
     } 
 }

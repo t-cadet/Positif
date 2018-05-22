@@ -37,9 +37,9 @@ public class GenererPredictionAction extends Action {
             c = v.getClient();
         }
         if(c!=null) {
-            int love = Integer.parseInt(request.getParameter("love"));
-            int work = Integer.parseInt(request.getParameter("work"));
-            int health = Integer.parseInt(request.getParameter("health"));
+            int love = seuiller(Integer.parseInt(request.getParameter("love")),1, 4);
+            int work = seuiller(Integer.parseInt(request.getParameter("work")), 1, 4);
+            int health = seuiller(Integer.parseInt(request.getParameter("health")), 1, 4);
             List<String> predictions = Services.genererPrediction(c, love, health, work);
             if(predictions != null);
                 request.setAttribute("data", predictions);
@@ -48,5 +48,15 @@ public class GenererPredictionAction extends Action {
             else {
                 request.setAttribute("success", false);
             }
-    }    
+    }   
+    
+    public static int seuiller(int aSeuiller, int borneInf, int borneSup) {
+        if(aSeuiller < borneInf) {
+            aSeuiller = borneInf;
+        }
+        else if(aSeuiller > borneSup) {
+            aSeuiller = borneSup;
+        }
+        return aSeuiller;
+    }
 }
